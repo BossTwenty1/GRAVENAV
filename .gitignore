@@ -1,0 +1,64 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+.pnpm-store/
+.yarn/
+vendor/
+
+# Build and distribution artifacts
+dist/
+build/
+out/
+target/
+generated/
+
+# Caches and test output
+.cache/
+.parcel-cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.coverage
+.coverage.*
+coverage/
+htmlcov/
+.nyc_output/
+
+# Logs and temporary files
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Python virtual environments and bytecode
+.venv/
+venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.swn
+*~
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Local/generated reports
+*.generated.*
+reports/

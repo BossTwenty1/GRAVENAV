@@ -1,0 +1,15 @@
+# Normalize text files to LF in the repository and working tree.
+* text=auto eol=lf
+
+# Common binary assets.
+*.7z binary
+*.bmp binary
+*.gif binary
+*.ico binary
+*.jar binary
+*.jpeg binary
+*.jpg binary
+*.pdf binary
+*.png binary
+*.webp binary
+*.zip binary
