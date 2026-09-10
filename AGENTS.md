@@ -21,6 +21,19 @@
 - Keep `main` stable.
 - Use branches for substantial development work.
 
+## GRAVENAV Source of Truth
+
+Before making significant product, architecture, database, mapping, authentication, or feature-scope changes, read [docs/PROJECT_BUILD_BRIEF.md](docs/PROJECT_BUILD_BRIEF.md).
+
+- The Build Brief overrides older conflicting planning notes.
+- Do not invent Forest Lake data, including section names, plot numbers, burial records, coordinates, occupancy figures, or client workflows.
+- Mock/test data must always be clearly labeled and must never be presented as official Forest Lake data.
+- Do not overstate GPS accuracy or promise exact plot-level precision without verification.
+- Do not reintroduce rejected or out-of-scope technologies and features without explicit project-team approval.
+- Approved Figma/design documentation becomes the visual source of truth when available.
+- Stitch output is reference material, not automatically production-ready code.
+- Preserve the approved Next.js, React, TypeScript, Tailwind CSS, shadcn/ui, Supabase, PostGIS, Leaflet, React Leaflet, and Browser Geolocation direction unless explicitly changed.
+
 ## Branch naming
 
 Use one of these prefixes, followed by a short kebab-case description:

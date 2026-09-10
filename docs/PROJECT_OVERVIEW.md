@@ -6,26 +6,69 @@ GRAVENAV.
 
 ## Current status
 
-Phase 0 — project foundation. The repository is newly initialized and application functionality has not been implemented.
+The approved Phase 0 project specification has been integrated. Application implementation has not started, and no application dependencies have been installed.
 
 ## Project purpose
 
-TBD. The product purpose has not yet been confirmed.
+GRAVENAV is a responsive GPS-enabled web application for gravesite location and cemetery management customized for Forest Lake Memorial Park in Legazpi City, Albay, Philippines.
 
-## Intended users
+The visitor experience helps people search for a deceased person, find the correct gravesite on an interactive cemetery map, use device location, and receive GPS-assisted guidance. The administrative experience gives authorized Forest Lake personnel a centralized system for burial records, gravesites/plots, cemetery sections, coordinates, photos, and required reports.
 
-TBD.
+## Problems addressed
+
+### Visitor problem
+
+Locating a specific grave inside a large memorial park can be confusing and time-consuming when a visitor does not know the cemetery layout, section, block, row, or plot location.
+
+### Administrative problem
+
+Burial, grave, plot, and location records need a more centralized, searchable, and efficient digital management approach instead of relying heavily on manual, fragmented, or difficult-to-search records.
+
+## Primary users
+
+- Cemetery visitors locating a deceased person's gravesite.
+- Bereaved family members visiting the memorial park.
+- Forest Lake Memorial Park staff maintaining burial and cemetery records.
+- Cemetery/system administrators managing records, locations, verification, accounts, and reports.
+
+## Secondary beneficiaries
+
+- Forest Lake Memorial Park management.
+- Other memorial parks or cemeteries that may use the study as a reference.
+- Future researchers and developers studying similar cemetery-management or gravesite-location systems.
 
 ## High-level objectives
 
-- Establish a clear and maintainable foundation.
-- Capture confirmed requirements and distinguish them from assumptions.
-- Make architecture and deployment decisions deliberately.
-- Prepare the repository for approved product development.
+- Combine searchable burial records with cemetery spatial data and an interactive map.
+- Provide browser/device geolocation and GPS-assisted gravesite guidance with honest accuracy handling.
+- Provide secure administration for records, locations, coordinate verification, photos, dashboards, and required reports.
+- Keep the data model adaptable to real Forest Lake records, map/CAD files, and verified coordinates when supplied.
+- Deliver connected, responsive visitor and administrator flows suitable for final defense.
 
 ## Major capabilities
 
-TBD. No GRAVENAV capabilities have been confirmed yet.
+### Visitor capabilities
+
+- Mobile-first responsive navigation.
+- Deceased-person search by name.
+- Search results and no-result handling.
+- Deceased-person/gravesite profile with available approved fields.
+- Interactive cemetery map and selected-gravesite focus.
+- Visitor location through the Browser Geolocation API.
+- Destination display and GPS-assisted guidance.
+- GPS accuracy and coordinate-verification information.
+- Row-, block-, or section-level fallback guidance when exact plot-level guidance is not reliable.
+
+### Administration capabilities
+
+- Secure administrator authentication and protected pages.
+- Dashboard.
+- Searchable/filterable burial-record management.
+- Deceased-person, burial, cemetery, plot, gravesite, and location management as supported by client data.
+- Latitude, longitude, recorded accuracy, and coordinate-verification workflow.
+- Gravesite/headstone photo management.
+- Occupancy/availability when reliable Forest Lake data exists.
+- Required reports, percentages, or graphs using actual available system data.
 
 ## Scope
 
@@ -38,24 +81,42 @@ TBD. No GRAVENAV capabilities have been confirmed yet.
 
 ### Future scope
 
-TBD and subject to product discovery and approval.
+Optional features are conditional on approved requirements, available client data, and schedule. These include plot-number or burial-date search, occupancy management, additional analytics, an audit-log interface, and additional map layers.
 
 ## Non-goals
 
-- Implementing application features during Phase 0.
-- Selecting a final framework, database, hosting provider, or deployment architecture without approval.
-- Installing application dependencies before the technology stack is confirmed.
-- Creating invented product requirements.
+- Dedicated native Android/iOS applications.
+- Full offline/PWA mode.
+- Payment or burial-service payment processing.
+- AI recommendations or AI memorial features.
+- Social-media memorial features.
+- Government civil-registry or church burial-record integration.
+- Traffic/road navigation outside the cemetery.
+- Biometric authentication.
+- Unrelated smart-cemetery features.
+- Dedicated custom hardware.
 
 ## Current development phase
 
-Phase 0 — foundation and discovery.
+Phase 0 specification integration is complete. The next implementation phase is pending project-team approval.
+
+## Final-defense expectations
+
+### Visitor flow
+
+The defense version must demonstrate opening the deployed application, searching for a deceased person, viewing results and the gravesite profile, showing the gravesite on the map, requesting and displaying visitor location, displaying GPS-assisted guidance, showing accuracy/verification information, and demonstrating at least one failure state.
+
+### Administrator flow
+
+The defense version must demonstrate secure sign-in, the protected dashboard, searching/viewing records, adding or editing a record, managing its gravesite/plot and coordinate information, coordinate verification, photo upload/display where supported, required dashboard statistics/reports, sign-out, and protection of administrator pages after sign-out.
+
+The application should work on representative mobile and desktop sizes, use connected flows rather than disconnected mockups, pass production build/type/lint/test checks, and use only clearly labeled mock/test data until official Forest Lake data is received and validated.
 
 ## Unresolved product questions
 
-- What problem does GRAVENAV solve?
-- Who are the primary users?
-- What are the first validated use cases?
-- Which capabilities are required for the first release?
-- What are the success criteria for the product and its first release?
-- What constraints, integrations, compliance requirements, or data sensitivities apply?
+- Which authoritative Forest Lake burial records, cemetery map/CAD/GIS files, and verified grave coordinates will be supplied, and when?
+- Which public deceased-person fields and visibility rules will Forest Lake approve?
+- Which reports, percentages, or graphs are specifically required by the study/panel?
+- What administrator roles and permission boundaries are required beyond secure administrator access?
+- What production hosting provider, domain, DNS, and operational ownership will be selected?
+- What license will be used?

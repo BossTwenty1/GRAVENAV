@@ -4,11 +4,11 @@
 
 NOT CONFIGURED.
 
-This document is planning documentation only. I intend to control the hosting and deployment of GRAVENAV myself. No cloud provider, hosting provider, infrastructure, or deployment pipeline has been selected.
+This document is planning documentation only. GRAVENAV is an online-first web application. I intend to control the hosting and deployment of GRAVENAV myself. The specific production hosting provider remains TBD and must support the approved Next.js/Supabase architecture. No provider, infrastructure, or deployment pipeline has been selected.
 
 ## Development environment
 
-The local development runtime, tooling, services, and setup process are TBD. Development configuration must remain separate from production configuration.
+The approved implementation direction is Next.js, React, TypeScript, Tailwind CSS, shadcn/ui, and Supabase. Exact runtime and package versions are governed by the repository/package manager and will be established when implementation begins. Development configuration must remain separate from production configuration.
 
 ## Staging environment
 
@@ -16,7 +16,13 @@ Whether a staging environment is needed, how it will be provisioned, and what da
 
 ## Production environment
 
-The production architecture, hosting location, capacity, access controls, and operational ownership are TBD.
+The production host must support the approved Next.js web application and Supabase PostgreSQL/PostGIS, Auth, and Storage architecture. Provider, region, capacity, access controls, and operational ownership are TBD.
+
+## Online-first and offline behavior
+
+Internet access is required for the normal production experience because GRAVENAV depends on the deployed Next.js application, Supabase services, and online map resources used by Leaflet. Full offline/PWA operation is not required for the current capstone scope and must not be claimed.
+
+The application must handle lost or poor connectivity gracefully with clear retry and error states. Browser geolocation may work independently of some server operations, but the full search, database, map, authentication, and navigation experience is not offline-capable by default.
 
 ## Environment variables
 
@@ -28,7 +34,7 @@ The secret-management solution, access model, rotation process, and audit requir
 
 ## Database migration
 
-Database technology, schema migration tooling, migration ownership, and rollback procedures are TBD.
+Database schema, PostGIS data preparation, migration tooling, migration ownership, and rollback procedures must support replacement of mock/test data with authoritative Forest Lake data without rewriting the application. Specific tooling is TBD.
 
 ## Database backups
 
@@ -60,11 +66,12 @@ Release versioning, rollback triggers, rollback execution, and database rollback
 
 ## Production configuration
 
-Production configuration must be explicit, reviewed, securely stored, and separated from development and staging configuration. The exact configuration process is TBD.
+Production configuration must be explicit, reviewed, securely stored, and separated from development and staging configuration. It must support the approved Next.js/Supabase architecture. The exact configuration process is TBD.
 
 ## Deployment checklist
 
 - Confirm the target environment and approved hosting approach.
+- Confirm the production provider supports the approved Next.js/Supabase architecture.
 - Confirm required environment variables and secret sources.
 - Confirm migrations and backup readiness.
 - Run tests, build checks, and security checks.

@@ -71,7 +71,7 @@ Do not add dependencies without a clear need. Use the package manager selected w
 
 ## Testing
 
-Run relevant automated tests, linters, formatters, builds, and security checks before declaring work complete. The specific commands are TBD until the technology stack is selected.
+Run relevant automated tests, linters, formatters, builds, and security checks before declaring work complete. The specific commands will be documented with the approved Next.js/Supabase implementation scaffold.
 
 ## Code reviews
 
