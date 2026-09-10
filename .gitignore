@@ -10,11 +10,13 @@ node_modules/
 vendor/
 
 # Build and distribution artifacts
+.next/
 dist/
 build/
 out/
 target/
 generated/
+*.tsbuildinfo
 
 # Caches and test output
 .cache/
