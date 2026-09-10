@@ -9,6 +9,18 @@ git clone https://github.com/BossTwenty1/GRAVENAV.git
 cd GRAVENAV
 ```
 
+## Local Supabase database
+
+Task 2 tracks the local Supabase configuration and migrations in `supabase/`. The Supabase CLI is included as a project-scoped development dependency; Docker Desktop is still required for the local services. Run:
+
+```bash
+npx supabase start
+npx supabase db reset
+npx supabase db lint --local --level warning
+```
+
+The reset command recreates only the local database from tracked migrations and runs the explicitly synthetic seed. Do not link or reset a remote/production project for this task. See [the database model](DATA_MODEL.md) for the entity and security decisions.
+
 Inspect the repository and current branch before making changes:
 
 ```bash

@@ -2,7 +2,7 @@
 
 ## Architecture status
 
-APPROVED DIRECTION — implementation has not started. The core web, data, authentication, storage, mapping, and geolocation choices below are approved. Specific production hosting remains TBD.
+APPROVED DIRECTION — Task 1 established the Next.js application foundation and Task 2 established the local normalized Supabase/PostgreSQL/PostGIS database foundation. Authentication, storage policies, public access, mapping workflows, geolocation capture, and routing remain deferred. Specific production hosting remains TBD.
 
 The approved stack is Next.js App Router, React, TypeScript, Tailwind CSS, shadcn/ui, Supabase PostgreSQL, PostGIS, Supabase Auth, Supabase Storage, Leaflet, React Leaflet, Browser Geolocation API, QGIS where useful, Git, GitHub, and OpenAI Codex. The production hosting provider is not selected.
 
@@ -70,7 +70,7 @@ Use the approved Next.js/Supabase architecture. Exact API and data-access bounda
 
 ## Database and storage considerations
 
-Use Supabase PostgreSQL for application data, PostGIS geometry/geography fields where appropriate, and Supabase Storage for gravesite/headstone photos and related media. The schema must remain adaptable to real Forest Lake records, map/CAD files, and verified coordinates. Retention, backup, and migration operations remain TBD.
+Use Supabase PostgreSQL for application data, PostGIS geometry/geography fields where appropriate, and Supabase Storage for gravesite/headstone photos and related media. The Task 2 schema separates plots, deceased persons, interments, raw coordinate observations, accepted coordinate versions, and verification history. It derives occupancy from active interments and keeps source commercial status separate. The schema must remain adaptable to real Forest Lake records, map/CAD files, and verified coordinates. Retention, backup, and migration operations remain TBD.
 
 ## API considerations
 

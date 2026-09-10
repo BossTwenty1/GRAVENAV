@@ -36,7 +36,7 @@ Native mobile apps, full offline/PWA operation, payments, AI memorial features, 
 
 ## Current development phase
 
-The approved Phase 0 specification has been integrated. Application implementation has not started, and no application dependencies have been installed.
+Task 1 established the Next.js application foundation. Task 2 adds the local Supabase/PostgreSQL/PostGIS schema foundation, reproducible migrations, deny-by-default RLS posture, and explicitly synthetic development seed data. Public search, authentication, CRUD workflows, map rendering, field GPS capture, and routing remain deferred.
 
 ## Repository structure
 
@@ -48,6 +48,10 @@ GRAVENAV/
 ├── .gitattributes
 ├── .editorconfig
 ├── .env.example
+├── supabase/
+│   ├── config.toml
+│   ├── migrations/
+│   └── seed.sql
 └── docs/
     ├── PROJECT_BUILD_BRIEF.md
     ├── PROJECT_OVERVIEW.md
@@ -79,7 +83,17 @@ git clone https://github.com/BossTwenty1/GRAVENAV.git
 cd GRAVENAV
 ```
 
-Application scaffolding, dependency installation, environment setup, and runtime commands will be documented when implementation begins. Do not claim or use Forest Lake data until it is officially supplied and validated. Clearly labeled mock/test data may be used during development.
+Install the existing application dependencies and use the available checks:
+
+```bash
+npm install
+npm run dev
+npm run lint
+npm run typecheck
+npm run build
+```
+
+For the local database workflow, see [the database model](docs/DATA_MODEL.md). Do not claim or use Forest Lake data until it is officially supplied and validated. Clearly labeled mock/test data may be used during development.
 
 Copy `.env.example` to `.env` only when local configuration is needed. Real secrets belong in `.env` or an approved secret-management system; `.env` must never be committed.
 
@@ -93,6 +107,8 @@ Read [AGENTS.md](AGENTS.md), [the Project Build Brief](docs/PROJECT_BUILD_BRIEF.
 - [Requirements](docs/REQUIREMENTS.md)
 - [Architecture](docs/ARCHITECTURE.md)
 - [Development workflow](docs/DEVELOPMENT.md)
+- [Database data model](docs/DATA_MODEL.md)
+- [GPS and navigation foundation](docs/GPS_NAVIGATION.md)
 - [Deployment planning](docs/DEPLOYMENT.md)
 - [Architecture Decision Records](docs/decisions/README.md)
 

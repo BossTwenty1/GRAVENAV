@@ -64,3 +64,7 @@ Desktop.ini
 # Local/generated reports
 *.generated.*
 reports/
+
+# Supabase CLI local runtime state
+supabase/.branches/
+supabase/.temp/

@@ -6,7 +6,7 @@ GRAVENAV.
 
 ## Current status
 
-The approved Phase 0 project specification has been integrated. Application implementation has not started, and no application dependencies have been installed.
+Task 1 established the Next.js application foundation. Task 2 established the normalized local Supabase/PostgreSQL/PostGIS schema, migration workflow, synthetic development seed, and deny-by-default database security posture. Full application workflows remain deferred to later tasks.
 
 ## Project purpose
 
