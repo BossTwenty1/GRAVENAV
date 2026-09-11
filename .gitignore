@@ -68,3 +68,11 @@ reports/
 # Supabase CLI local runtime state
 supabase/.branches/
 supabase/.temp/
+
+# Raw workbooks and local import inputs must never enter Git.
+*.xlsx
+*.xlsm
+*.xls
+*.csv
+*.tsv
+import-inputs/

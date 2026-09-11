@@ -7,18 +7,23 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:imports": "node --conditions=react-server --import tsx --test tests/imports/*.test.ts",
+    "import:preview": "node --conditions=react-server --import tsx scripts/import-preview.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.116.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "fflate": "^0.8.3",
     "leaflet": "^1.9.4",
     "next": "^16.3.4",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "react-leaflet": "^5.0.0",
+    "read-excel-file": "^9.3.10",
+    "server-only": "^0.0.1",
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
@@ -32,6 +37,7 @@
     "postcss": "^8.5.28",
     "supabase": "^2.117.0",
     "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.13",
     "typescript": "^6.0.3"
   }
 }

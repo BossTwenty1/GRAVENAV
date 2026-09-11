@@ -98,6 +98,8 @@ Do not add dependencies without a clear need. Use the package manager selected w
 
 ## Testing
 
+Task 4 adds `npm run test:imports` using Node's built-in test runner with `tsx`, including synthetic XLSX, GRAVENAV-scale row-boundary, archive-size, privacy, duplicate and server-boundary tests. `npm run import:preview -- --adapter ... --file ... --sheet ... --site ... --label ...` is always read-only, prints counts and uses the documented default workbook limits. The CLI cannot disable or raise limits. Trusted server code may use reviewed overrides only up to immutable hard ceilings. See [DATA_IMPORT.md](DATA_IMPORT.md) for exact approved adapters, default/hard limits, persistence and local validation. Raw spreadsheets are ignored by Git and must remain outside the repository.
+
 Run relevant automated tests, linters, formatters, builds, and security checks before declaring work complete. The specific commands will be documented with the approved Next.js/Supabase implementation scaffold.
 
 ## Code reviews

@@ -85,6 +85,8 @@ Core and historical records do not expose hard DELETE through normal Administrat
 
 ## Imports and synthetic data
 
+Task 4 adds `20260911140000_safe_import_pipeline.sql`: optional `deceased_persons.source_display_name` preserves an undecomposed name while generated display/search columns retain existing name-part fallback; `import_batches.validated_records` stores an allowlisted provenance ledger; an import fingerprint index and Administrator-only security-invoker RPC support atomic persistence. Existing RLS and occupancy behavior are unchanged. See [DATA_IMPORT.md](DATA_IMPORT.md) for field allowlists, review states, matching, limits and synthetic validation. No real client migration is included.
+
 `import_batches` and `import_issues` preserve source references and validation issues without storing confidential file contents. Raw issue values are intentionally a single optional text field and should contain only safe values.
 
 `supabase/seed.sql` creates one explicitly synthetic site, four synthetic plots, three interments across two plots, an unresolved `MCF` source classification, and synthetic coordinate examples. It contains no client names, addresses, phone numbers, financial information, real burial records, or production coordinates.

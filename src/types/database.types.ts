@@ -337,6 +337,7 @@ export type Database = {
           is_synthetic: boolean
           middle_name: string | null
           normalized_search_name: string | null
+          source_display_name: string | null
           state: Database["public"]["Enums"]["record_state"]
           suffix: string | null
           updated_at: string
@@ -352,6 +353,7 @@ export type Database = {
           is_synthetic?: boolean
           middle_name?: string | null
           normalized_search_name?: string | null
+          source_display_name?: string | null
           state?: Database["public"]["Enums"]["record_state"]
           suffix?: string | null
           updated_at?: string
@@ -367,6 +369,7 @@ export type Database = {
           is_synthetic?: boolean
           middle_name?: string | null
           normalized_search_name?: string | null
+          source_display_name?: string | null
           state?: Database["public"]["Enums"]["record_state"]
           suffix?: string | null
           updated_at?: string
@@ -539,6 +542,7 @@ export type Database = {
           started_at: string | null
           status: Database["public"]["Enums"]["import_batch_status"]
           updated_at: string
+          validated_records: Json
         }
         Insert: {
           completed_at?: string | null
@@ -555,6 +559,7 @@ export type Database = {
           started_at?: string | null
           status?: Database["public"]["Enums"]["import_batch_status"]
           updated_at?: string
+          validated_records?: Json
         }
         Update: {
           completed_at?: string | null
@@ -571,6 +576,7 @@ export type Database = {
           started_at?: string | null
           status?: Database["public"]["Enums"]["import_batch_status"]
           updated_at?: string
+          validated_records?: Json
         }
         Relationships: []
       }
@@ -1149,6 +1155,17 @@ export type Database = {
           p_given_name: string
           p_middle_name: string
           p_suffix: string
+        }
+        Returns: string
+      }
+      persist_import_plan: {
+        Args: {
+          p_adapter: string
+          p_label: string
+          p_records: Json
+          p_sheet: string
+          p_site_id: string
+          p_synthetic?: boolean
         }
         Returns: string
       }

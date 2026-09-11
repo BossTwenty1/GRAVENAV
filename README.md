@@ -2,7 +2,7 @@
 
 ## Project status
 
-Approved Phase 0 specification integrated. Application implementation has not started.
+Tasks 1–3 establish the application, database and Administrator authorization. Task 4 adds a synthetic-tested, privacy-first import engine; real-data migration remains unapproved.
 
 GRAVENAV is a responsive GPS-enabled web application for gravesite location and cemetery management customized for Forest Lake Memorial Park in Legazpi City, Albay, Philippines.
 
@@ -103,6 +103,7 @@ Read [AGENTS.md](AGENTS.md), [the Project Build Brief](docs/PROJECT_BUILD_BRIEF.
 
 ## Documentation
 
+- [Safe data import engine and dry-run workflow](docs/DATA_IMPORT.md)
 - [Project overview](docs/PROJECT_OVERVIEW.md)
 - [Requirements](docs/REQUIREMENTS.md)
 - [Architecture](docs/ARCHITECTURE.md)

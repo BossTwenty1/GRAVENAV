@@ -66,6 +66,8 @@ The public experience is mobile-first and the administrator experience is deskto
 
 ## Backend considerations
 
+Task 4's `src/lib/imports/` separates pure adapters/normalization from server-only workbook reading, preview/fingerprinting and authenticated persistence. A bounded XLSX reader projects approved columns; a single security-invoker PostgreSQL RPC persists validated records transactionally under existing Administrator RLS. There is no upload route, import UI or browser parser. See [DATA_IMPORT.md](DATA_IMPORT.md) for the privacy boundary and deliberate source-format limitations.
+
 Use the approved Next.js/Supabase architecture. Exact API and data-access boundaries are implementation details to be established within that architecture. Do not add another backend framework, database, or authentication system without approval.
 
 ## Database and storage considerations
