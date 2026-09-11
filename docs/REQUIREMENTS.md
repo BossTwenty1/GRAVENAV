@@ -122,6 +122,14 @@ The data model should support administrator references, deceased-person informat
 ## Security requirements
 
 - Provide secure administrator authentication and protected pages.
+- Treat authentication and authorization separately: a signed-in account requires an explicitly approved, active Administrator profile.
+- Support one privileged MVP application role, `administrator`; additional roles remain deferred.
+- Do not provide public signup. Administrator accounts are explicitly provisioned.
+- Keep anonymous access to protected base application tables denied until a separately designed public data layer is approved.
+- Prevent authenticated users from changing role or active authorization fields through normal application access.
+- Keep audit history append-only for normal administrator application access.
+- Do not grant normal Administrator hard-delete access to core cemetery records, burial history, import provenance, gravesite-photo metadata, or coordinate collection and verification history; use existing lifecycle and supersession fields to preserve traceability.
+- Permit hard deletion only for clearly rebuildable application structures where there is an operational need and referential integrity remains enforced.
 - Keep secrets, credentials, tokens, and passwords outside the repository.
 - Never commit `.env`.
 - Validate external input and safely handle record, photo, location, and authentication data.

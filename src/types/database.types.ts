@@ -1103,7 +1103,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          application_role?: string
+          application_role: string
           created_at?: string
           display_name?: string | null
           id: string

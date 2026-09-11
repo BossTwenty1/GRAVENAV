@@ -36,7 +36,7 @@ Native mobile apps, full offline/PWA operation, payments, AI memorial features, 
 
 ## Current development phase
 
-Task 1 established the Next.js application foundation. Task 2 adds the local Supabase/PostgreSQL/PostGIS schema foundation, reproducible migrations, deny-by-default RLS posture, and explicitly synthetic development seed data. Public search, authentication, CRUD workflows, map rendering, field GPS capture, and routing remain deferred.
+Task 1 established the Next.js application foundation. Task 2 added the local Supabase/PostgreSQL/PostGIS schema foundation, reproducible migrations, deny-by-default RLS posture, and explicitly synthetic development seed data. Task 3 adds Supabase email/password authentication, explicit Administrator authorization, protected administrator routes, session refresh, sign-out, and database security policies. Public search, CRUD workflows, map rendering, field GPS capture, and routing remain deferred.
 
 ## Repository structure
 
@@ -93,7 +93,7 @@ npm run typecheck
 npm run build
 ```
 
-For the local database workflow, see [the database model](docs/DATA_MODEL.md). Do not claim or use Forest Lake data until it is officially supplied and validated. Clearly labeled mock/test data may be used during development.
+For the local database and authorization workflow, see [the database model](docs/DATA_MODEL.md) and [the development guide](docs/DEVELOPMENT.md). Do not claim or use Forest Lake data until it is officially supplied and validated. Clearly labeled mock/test data may be used during development.
 
 Copy `.env.example` to `.env` only when local configuration is needed. Real secrets belong in `.env` or an approved secret-management system; `.env` must never be committed.
 

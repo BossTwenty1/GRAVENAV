@@ -17,9 +17,24 @@ Task 2 tracks the local Supabase configuration and migrations in `supabase/`. Th
 npx supabase start
 npx supabase db reset
 npx supabase db lint --local --level warning
+npx supabase test db
 ```
 
-The reset command recreates only the local database from tracked migrations and runs the explicitly synthetic seed. Do not link or reset a remote/production project for this task. See [the database model](DATA_MODEL.md) for the entity and security decisions.
+The reset command recreates only the local database from tracked migrations and runs the explicitly synthetic seed. The pgTAP suite under `supabase/tests/` verifies anonymous denial, authenticated non-administrator denial, allowed administrator operations, protected historical-record DELETE denial, explicit DELETE behavior for rebuildable map/navigation data, privilege-escalation prevention, and audit integrity. Scope database lint to `public` and `private` when reviewing project-owned functions; full-schema lint may report diagnostics from bundled PostGIS extension functions.
+
+Do not link or reset a remote/production project for local validation. See [the database model](DATA_MODEL.md) for the entity and security decisions.
+
+## Local administrator validation
+
+Task 3 does not seed Auth users or commit reusable passwords. For a local runtime test:
+
+1. Start the local Supabase stack and reset the database.
+2. Create a temporary user through trusted local Supabase administrative tooling, using a password generated for that one validation run.
+3. As the local database owner, explicitly insert a matching `public.user_profiles` row with `application_role = 'administrator'` and `is_active = true`.
+4. Put only the local API URL and local publishable key in an untracked `.env.local` file, run the app, and test login and logout.
+5. Delete the temporary local user or reset the local database when validation is complete. Never record the password, access token, refresh token, Auth cookie, secret key, or service-role key in source, documentation, or logs.
+
+Authenticated test users without an active Administrator profile must receive the same neutral login failure or access-denied behavior and no protected data. Public signup and anonymous sign-in are disabled in `supabase/config.toml`; production provisioning configuration must be applied separately when a hosted project is approved.
 
 Inspect the repository and current branch before making changes:
 

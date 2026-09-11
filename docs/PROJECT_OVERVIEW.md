@@ -6,7 +6,7 @@ GRAVENAV.
 
 ## Current status
 
-Task 1 established the Next.js application foundation. Task 2 established the normalized local Supabase/PostgreSQL/PostGIS schema, migration workflow, synthetic development seed, and deny-by-default database security posture. Full application workflows remain deferred to later tasks.
+Task 1 established the Next.js application foundation. Task 2 established the normalized local Supabase/PostgreSQL/PostGIS schema, migration workflow, synthetic development seed, and deny-by-default database security posture. Task 3 adds Supabase email/password sign-in, explicit active Administrator authorization, protected administrator routes, sign-out, and administrator-only RLS policies. Data-management and public visitor workflows remain deferred.
 
 ## Project purpose
 
@@ -117,6 +117,6 @@ The application should work on representative mobile and desktop sizes, use conn
 - Which authoritative Forest Lake burial records, cemetery map/CAD/GIS files, and verified grave coordinates will be supplied, and when?
 - Which public deceased-person fields and visibility rules will Forest Lake approve?
 - Which reports, percentages, or graphs are specifically required by the study/panel?
-- What administrator roles and permission boundaries are required beyond secure administrator access?
+- What roles and permission boundaries, if any, will be required beyond the approved single Administrator MVP role?
 - What production hosting provider, domain, DNS, and operational ownership will be selected?
 - What license will be used?

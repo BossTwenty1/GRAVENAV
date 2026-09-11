@@ -33,6 +33,8 @@ enabled = true
 
 [auth]
 enabled = true
+enable_signup = false
+enable_anonymous_sign_ins = false
 
 [analytics]
 enabled = false

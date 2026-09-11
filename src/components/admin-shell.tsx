@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { signOutAdministrator } from "@/app/admin/actions";
+
 const adminLinks = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/interments", label: "Interments" },
@@ -10,7 +12,7 @@ const adminLinks = [
   { href: "/admin/reports", label: "Reports" },
 ];
 
-export function AdminShell({ children }: { children: ReactNode }) {
+export function AdminShell({ children, displayName }: { children: ReactNode; displayName: string | null }) {
   return (
     <div className="min-h-screen bg-[#eef3ee]">
       <header className="border-b bg-surface">
@@ -19,11 +21,20 @@ export function AdminShell({ children }: { children: ReactNode }) {
             <Link className="text-lg font-semibold tracking-wide text-primary" href="/admin">
               GRAVENAV Admin
             </Link>
-            <p className="mt-1 text-xs text-muted">Foundation shell — authentication pending</p>
+            <p className="mt-1 text-xs text-muted">
+              Signed in{displayName ? ` as ${displayName}` : " as an approved administrator"}
+            </p>
           </div>
-          <Link className="rounded-md px-3 py-2 text-sm font-semibold text-primary hover:bg-accent" href="/">
-            Public site
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link className="rounded-md px-3 py-2 text-sm font-semibold text-primary hover:bg-accent" href="/">
+              Public site
+            </Link>
+            <form action={signOutAdministrator}>
+              <button className="rounded-md border px-3 py-2 text-sm font-semibold hover:bg-accent" type="submit">
+                Sign out
+              </button>
+            </form>
+          </div>
         </div>
       </header>
       <div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 py-8 sm:px-8 lg:flex-row">
@@ -35,9 +46,6 @@ export function AdminShell({ children }: { children: ReactNode }) {
                 {link.label}
               </Link>
             ))}
-            <Link className="mt-3 rounded-lg border px-3 py-2 text-sm font-medium hover:bg-accent" href="/admin/login">
-              Administrator login
-            </Link>
           </nav>
         </aside>
         <main className="min-w-0 flex-1">{children}</main>

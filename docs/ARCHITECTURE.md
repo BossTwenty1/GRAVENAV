@@ -2,7 +2,7 @@
 
 ## Architecture status
 
-APPROVED DIRECTION — Task 1 established the Next.js application foundation and Task 2 established the local normalized Supabase/PostgreSQL/PostGIS database foundation. Authentication, storage policies, public access, mapping workflows, geolocation capture, and routing remain deferred. Specific production hosting remains TBD.
+APPROVED DIRECTION — Task 1 established the Next.js application foundation, Task 2 established the local normalized Supabase/PostgreSQL/PostGIS database foundation, and Task 3 establishes Supabase Auth plus explicit Administrator authorization. Storage policies, public data access, CRUD workflows, mapping, geolocation capture, and routing remain deferred. Specific production hosting remains TBD.
 
 The approved stack is Next.js App Router, React, TypeScript, Tailwind CSS, shadcn/ui, Supabase PostgreSQL, PostGIS, Supabase Auth, Supabase Storage, Leaflet, React Leaflet, Browser Geolocation API, QGIS where useful, Git, GitHub, and OpenAI Codex. The production hosting provider is not selected.
 
@@ -78,7 +78,11 @@ The exact API, protocol, versioning, and data-access boundaries are implementati
 
 ## Authentication and authorization considerations
 
-Use Supabase Auth for secure administrator authentication, protected pages, and session/logout handling. Detailed administrator roles and permission boundaries remain an unresolved product question and must follow the approved client workflow.
+Supabase Auth proves identity through cookie-based SSR sessions. Identity alone does not authorize administration. The MVP has one application role, `administrator`, represented by an explicitly provisioned `user_profiles` row that must also be active. No profile row, an inactive row, or any other authenticated state is denied administrator access.
+
+The root `src/proxy.ts` uses the Supabase SSR session-refresh pattern and verified `getClaims()` calls. The protected administrator route group repeats trusted server-side identity verification and confirms authorization through RLS-protected profile data before rendering. The login route remains outside that protected group. Login and sign-out mutations run as Server Actions so session cookies are changed server-side.
+
+There is no public signup UI, and local Supabase signup and anonymous sign-in are disabled. Administrator Auth users and their authorization profiles are provisioned explicitly through trusted administrative tooling. Additional application roles and detailed permission tiers are deferred until approved.
 
 ## Security considerations
 
@@ -87,6 +91,12 @@ Use Supabase Auth for secure administrator authentication, protected pages, and 
 - Minimize permissions and validate all external input.
 - Determine privacy, compliance, audit, and data-retention obligations.
 - Select security tooling and review practices after the stack is known.
+- Keep `anon` denied from protected base application tables.
+- Grant `authenticated` only the SQL operations that administrator RLS policies are intended to allow.
+- Keep authorization profile mutations outside normal application-user grants to prevent self-promotion.
+- Treat application audit history as append-only: authorized administrators can select and insert, but not update or delete, audit rows.
+- Preserve core cemetery, burial, import-provenance, photo-metadata, and coordinate-history records through their existing active, state, status, verification, or supersession mechanisms instead of normal Administrator hard deletion.
+- Limit Administrator DELETE access to rebuildable map/navigation structures: navigation nodes, navigation edges, and map features. Referential-integrity constraints still govern those deletes.
 
 Detailed threat modeling and security requirements are TBD.
 
@@ -116,7 +126,7 @@ Backup scope, frequency, retention, restore testing, recovery objectives, and di
 ## Open architecture decisions
 
 - Specific production hosting provider and deployment pipeline.
-- Exact administrator role and permission model.
+- Administrator roles beyond the single-role MVP and any future delegated permission model.
 - Final Forest Lake data import/migration process after authoritative data is supplied.
 - Exact map-resource and tile configuration within the approved Leaflet direction.
 - Observability, backup, recovery, and operational ownership.

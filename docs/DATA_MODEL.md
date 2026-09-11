@@ -1,6 +1,6 @@
 # GRAVENAV database foundation
 
-Task 2 adds the initial normalized Supabase/PostgreSQL/PostGIS schema. The migration is intentionally a foundation: it does not implement authentication UI, public search, CRUD workflows, importing, map rendering, GPS capture, or routing.
+Task 2 adds the initial normalized Supabase/PostgreSQL/PostGIS schema. Task 3 adds authentication authorization support and RLS/grants without implementing public search, CRUD workflows, importing, map rendering, GPS capture, or routing.
 
 ## Migration and local workflow
 
@@ -8,7 +8,9 @@ The database definition is in:
 
 - `supabase/config.toml`
 - `supabase/migrations/20260910220000_initial_database_foundation.sql`
+- `supabase/migrations/20260911100000_administrator_authorization.sql`
 - `supabase/seed.sql`
+- `supabase/tests/administrator_authorization.test.sql`
 
 With the Supabase CLI and Docker installed, run from the repository root:
 
@@ -16,6 +18,7 @@ With the Supabase CLI and Docker installed, run from the repository root:
 supabase start
 supabase db reset
 supabase db lint
+supabase test db
 ```
 
 `supabase db reset` recreates the local database from the tracked migrations and then runs the development seed. The seed is synthetic only and must never be treated as Forest Lake data. No remote project is linked or modified by this task.
@@ -68,9 +71,17 @@ The following application tables have Row Level Security enabled:
 
 `import_batches`, `cemetery_sites`, `cemetery_areas`, `sectors`, `plot_types`, `navigation_nodes`, `plots`, `navigation_edges`, `deceased_persons`, `interments`, `gravesite_photos`, `coordinate_collection_sessions`, `map_control_points`, `coordinate_observations`, `gravesite_coordinates`, `coordinate_verifications`, `map_features`, `import_issues`, `audit_logs`, and `user_profiles`.
 
-Task 2 creates no RLS policies and revokes table/sequence access from `anon` and `authenticated`. This prevents accidental public or generic-authenticated access to sensitive base tables. Administrator authorization and a carefully whitelisted public read layer are deferred to the authentication/public-access tasks. No service-role key is used in browser code.
+Task 2 creates no RLS policies and revokes table/sequence access from `anon` and `authenticated`. Task 3 preserves complete `anon` denial and grants `authenticated` only operations guarded by explicit administrator policies. The `plot_occupancy` view remains `security_invoker`, so its underlying table policies still apply. A carefully whitelisted public read layer remains deferred.
 
-`audit_logs` is an internal correction-history foundation. `user_profiles` is a lightweight future reference to `auth.users` with only the planned `administrator` role; no users or credentials are created.
+Authentication and application authorization are separate. Supabase Auth identifies a user; an active `public.user_profiles` row with the sole MVP role `administrator` authorizes that identity. Profiles are explicit approvals and are not auto-created. Role and active-state defaults do not grant access.
+
+`private.is_administrator()` is a zero-argument, stable `SECURITY DEFINER` function used by RLS. It is outside the Data API's exposed schemas, has an empty search path, schema-qualifies its references, revokes default/Public and anonymous execution, and grants only schema usage plus function execution to `authenticated`. It returns only a boolean for the current `auth.uid()`.
+
+The main application tables have separate SELECT, INSERT, and UPDATE policies for active administrators. Hard DELETE is intentionally narrower: only `navigation_nodes`, `navigation_edges`, and `map_features` retain Administrator DELETE grants and policies because they are rebuildable map/navigation structures that may be regenerated or redesigned. Existing foreign keys continue to prevent unsafe deletion of referenced navigation records.
+
+Core and historical records do not expose hard DELETE through normal Administrator Data API access. Cemetery hierarchy and plot-type records use `is_active`; plots, deceased-person records, interments, and gravesite-photo metadata use their existing state fields; import records use status/resolution fields; and coordinate collection, observation, control-point, gravesite-coordinate, and verification records are corrected, verified, or superseded while preserving provenance. This correction does not add Storage object deletion behavior. `user_profiles` is SELECT-only through administrator RLS; authenticated application users cannot insert, update, or delete authorization rows, preventing self-promotion. `audit_logs` permits authorized administrator SELECT and INSERT only; UPDATE and DELETE grants and policies are absent so historical audit rows remain append-only in normal application flows.
+
+`audit_logs` is an internal correction-history foundation. `user_profiles` references `auth.users` and supports only the approved `administrator` role. Neither migrations nor seed data create Auth users or credentials.
 
 ## Imports and synthetic data
 
@@ -80,7 +91,7 @@ Task 2 creates no RLS policies and revokes table/sequence access from `anon` and
 
 ## Deferred work
 
-- administrator authentication, profiles, and policies;
+- administrator account-management UI and any roles beyond the single-role MVP;
 - whitelisted public directory/search access;
 - real client-data import and validation;
 - map/QGIS processing and geometry ingestion;
