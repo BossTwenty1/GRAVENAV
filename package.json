@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test:imports": "node --conditions=react-server --import tsx --test tests/imports/*.test.ts",
+    "test:deceased": "node --conditions=react-server --import tsx --test tests/deceased/*.test.ts",
     "import:preview": "node --conditions=react-server --import tsx scripts/import-preview.ts"
   },
   "dependencies": {

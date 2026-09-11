@@ -1149,6 +1149,14 @@ export type Database = {
       }
     }
     Functions: {
+      create_deceased_person: {
+        Args: {
+          p_date_of_birth: string | null
+          p_date_of_death: string | null
+          p_source_display_name: string
+        }
+        Returns: string
+      }
       normalize_person_name: {
         Args: {
           p_family_name: string
@@ -1166,6 +1174,15 @@ export type Database = {
           p_sheet: string
           p_site_id: string
           p_synthetic?: boolean
+        }
+        Returns: string
+      }
+      update_deceased_person: {
+        Args: {
+          p_date_of_birth: string | null
+          p_date_of_death: string | null
+          p_deceased_person_id: string
+          p_source_display_name: string
         }
         Returns: string
       }

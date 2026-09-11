@@ -5,6 +5,7 @@ import { signOutAdministrator } from "@/app/admin/actions";
 
 const adminLinks = [
   { href: "/admin", label: "Dashboard" },
+  { href: "/admin/deceased", label: "Deceased records" },
   { href: "/admin/interments", label: "Interments" },
   { href: "/admin/plots", label: "Plots" },
   { href: "/admin/map", label: "Map" },

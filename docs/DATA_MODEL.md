@@ -1,6 +1,6 @@
 # GRAVENAV database foundation
 
-Task 2 adds the initial normalized Supabase/PostgreSQL/PostGIS schema. Task 3 adds authentication authorization support and RLS/grants without implementing public search, CRUD workflows, importing, map rendering, GPS capture, or routing.
+Task 2 adds the initial normalized Supabase/PostgreSQL/PostGIS schema. Task 3 adds authentication authorization support and RLS/grants. Task 4 adds the safe import foundation. Task 5A adds narrowly scoped Administrator deceased-record create and correction functions without implementing interment/plot management, public search, mapping, GPS, reports, or routing.
 
 ## Migration and local workflow
 
@@ -9,8 +9,11 @@ The database definition is in:
 - `supabase/config.toml`
 - `supabase/migrations/20260910220000_initial_database_foundation.sql`
 - `supabase/migrations/20260911100000_administrator_authorization.sql`
+- `supabase/migrations/20260911140000_safe_import_pipeline.sql`
+- `supabase/migrations/20260911180000_admin_deceased_management.sql`
 - `supabase/seed.sql`
 - `supabase/tests/administrator_authorization.test.sql`
+- `supabase/tests/admin_deceased_management.test.sql`
 
 With the Supabase CLI and Docker installed, run from the repository root:
 
@@ -82,6 +85,8 @@ The main application tables have separate SELECT, INSERT, and UPDATE policies fo
 Core and historical records do not expose hard DELETE through normal Administrator Data API access. Cemetery hierarchy and plot-type records use `is_active`; plots, deceased-person records, interments, and gravesite-photo metadata use their existing state fields; import records use status/resolution fields; and coordinate collection, observation, control-point, gravesite-coordinate, and verification records are corrected, verified, or superseded while preserving provenance. This correction does not add Storage object deletion behavior. `user_profiles` is SELECT-only through administrator RLS; authenticated application users cannot insert, update, or delete authorization rows, preventing self-promotion. `audit_logs` permits authorized administrator SELECT and INSERT only; UPDATE and DELETE grants and policies are absent so historical audit rows remain append-only in normal application flows.
 
 `audit_logs` is an internal correction-history foundation. `user_profiles` references `auth.users` and supports only the approved `administrator` role. Neither migrations nor seed data create Auth users or credentials.
+
+Task 5A uses small security-invoker RPCs to make each deceased-person create/correction and its append-only audit event atomic. Audit metadata contains field names rather than raw before/after record payloads. See [Administrator deceased-record management](ADMIN_DECEASED_RECORDS.md).
 
 ## Imports and synthetic data
 

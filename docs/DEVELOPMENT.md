@@ -102,6 +102,8 @@ Task 4 adds `npm run test:imports` using Node's built-in test runner with `tsx`,
 
 Run relevant automated tests, linters, formatters, builds, and security checks before declaring work complete. The specific commands will be documented with the approved Next.js/Supabase implementation scaffold.
 
+Task 5A deceased-record validation tests run with `npm run test:deceased`. Database-level mutation, audit, authorization, and no-hard-delete assertions are included in `npx supabase test db`.
+
 ## Code reviews
 
 Review for correctness, scope, security, maintainability, tests, documentation, and unintended generated or machine-specific files. Resolve review feedback before merging.
