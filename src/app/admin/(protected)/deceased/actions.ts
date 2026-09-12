@@ -12,6 +12,7 @@ import {
 } from "@/lib/deceased/validation";
 import { requireAdministrator } from "@/lib/auth/administrator";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createDeceasedPersonRpc, updateDeceasedPersonRpc } from "@/lib/supabase/rpc";
 
 export type DeceasedFormState = {
   error?: string;
@@ -63,8 +64,8 @@ async function mutateDeceasedRecord(
       p_date_of_death: validation.data.deathDate,
     };
     const result = mode === "create"
-      ? await supabase.rpc("create_deceased_person", parameters)
-      : await supabase.rpc("update_deceased_person", {
+      ? await createDeceasedPersonRpc(supabase, parameters)
+      : await updateDeceasedPersonRpc(supabase, {
           ...parameters,
           p_deceased_person_id: id!,
         });

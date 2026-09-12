@@ -1151,9 +1151,21 @@ export type Database = {
     Functions: {
       create_deceased_person: {
         Args: {
-          p_date_of_birth: string | null
-          p_date_of_death: string | null
+          p_date_of_birth: string
+          p_date_of_death: string
           p_source_display_name: string
+        }
+        Returns: string
+      }
+      create_interment: {
+        Args: {
+          p_confirm_occupied?: boolean
+          p_deceased_person_id: string
+          p_interment_date: string
+          p_interment_type: string
+          p_permanence_status: string
+          p_plot_id: string
+          p_position_sequence: number
         }
         Returns: string
       }
@@ -1177,21 +1189,35 @@ export type Database = {
         }
         Returns: string
       }
-      update_deceased_person: {
-        Args: {
-          p_date_of_birth: string | null
-          p_date_of_death: string | null
-          p_deceased_person_id: string
-          p_source_display_name: string
-        }
-        Returns: string
-      }
       person_display_name: {
         Args: {
           p_family_name: string
           p_given_name: string
           p_middle_name: string
           p_suffix: string
+        }
+        Returns: string
+      }
+      update_deceased_person: {
+        Args: {
+          p_date_of_birth: string
+          p_date_of_death: string
+          p_deceased_person_id: string
+          p_source_display_name: string
+        }
+        Returns: string
+      }
+      update_interment: {
+        Args: {
+          p_confirm_occupied?: boolean
+          p_deceased_person_id: string
+          p_interment_date: string
+          p_interment_id: string
+          p_interment_type: string
+          p_permanence_status: string
+          p_plot_id: string
+          p_position_sequence: number
+          p_state: Database["public"]["Enums"]["record_state"]
         }
         Returns: string
       }

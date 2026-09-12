@@ -109,7 +109,9 @@ The following expectations are confirmed:
 
 ## Data requirements
 
-Task 4 implements the privacy-first normalization/import engine for explicitly allowlisted inventory and interment-summary inputs, with dry-run previews, conservative parsing, identity review, synthetic tests and atomic Administrator persistence. Commercial status never sets occupancy; MCF remains unresolved and EST remains an inference. Exact client worksheet/site/location/date mappings and production migration approval remain outstanding. See [DATA_IMPORT.md](DATA_IMPORT.md). No import UI or Task 5 CRUD workflows are included.
+Task 4 implements the privacy-first normalization/import engine for explicitly allowlisted inventory and interment-summary inputs, with dry-run previews, conservative parsing, identity review, synthetic tests and atomic Administrator persistence. Commercial status never sets occupancy; MCF remains unresolved and EST remains an inference. Exact client worksheet/site/location/date mappings and production migration approval remain outstanding. See [DATA_IMPORT.md](DATA_IMPORT.md). The import task itself adds no browser import UI.
+
+Task 5A provides protected deceased-person management. Task 5B provides protected, paginated interment management with bounded relationship pickers, multiple-interment confirmation, configured-capacity enforcement, derived occupancy, conservative duplicate/date validation, lifecycle correction, and atomic safe audit history. Plot CRUD and all later public/map/GPS/report/photo workflows remain deferred. See [ADMIN_DECEASED_RECORDS.md](ADMIN_DECEASED_RECORDS.md) and [ADMIN_INTERMENTS.md](ADMIN_INTERMENTS.md).
 
 The data model should support administrator references, deceased-person information, burial details, sections, blocks, rows, plots, gravesite identifiers, gravesite relationships, latitude/longitude, PostGIS geometry/geography where appropriate, GPS accuracy, coordinate-verification status, photos and metadata, record visibility/status, timestamps, and occupancy or audit information only when approved and supported by reliable client data.
 

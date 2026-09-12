@@ -10,6 +10,8 @@
     "typecheck": "tsc --noEmit",
     "test:imports": "node --conditions=react-server --import tsx --test tests/imports/*.test.ts",
     "test:deceased": "node --conditions=react-server --import tsx --test tests/deceased/*.test.ts",
+    "test:interments": "node --conditions=react-server --import tsx --test tests/interments/*.test.ts",
+    "db:types": "node scripts/generate-database-types.mjs",
     "import:preview": "node --conditions=react-server --import tsx scripts/import-preview.ts"
   },
   "dependencies": {

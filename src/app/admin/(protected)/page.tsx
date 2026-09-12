@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const sections = [
   ["Deceased records", "View, search, add, and correct deceased-person records.", "/admin/deceased"],
-  ["Interments", "Future interment record management.", "/admin/interments"],
+  ["Interments", "View, search, add, and correct deceased-to-plot interment records.", "/admin/interments"],
   ["Plots", "Future cemetery areas, plots, and gravesite relationships.", "/admin/plots"],
   ["Map", "Future spatial-data and map-layer preparation.", "/admin/map"],
   ["Coordinates", "Future coordinate capture and verification workflows.", "/admin/coordinates"],
@@ -15,7 +15,7 @@ export default function AdminDashboardPage() {
       <p className="text-sm font-semibold uppercase tracking-[0.14em] text-primary">Administrator</p>
       <h1 className="mt-3 text-3xl font-semibold tracking-tight">Administration</h1>
       <p className="mt-4 max-w-2xl leading-7 text-muted">
-        You are signed in with an approved administrator account. Deceased-person record management is available; other workflows remain reserved for later tasks.
+        You are signed in with an approved administrator account. Deceased-person and interment record management are available; other workflows remain reserved for later tasks.
       </p>
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
         {sections.map(([title, description, href]) => (
