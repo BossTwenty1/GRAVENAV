@@ -1169,6 +1169,16 @@ export type Database = {
         }
         Returns: string
       }
+      create_plot: {
+        Args: {
+          p_cemetery_area_id: string
+          p_cemetery_site_id: string
+          p_plot_identifier: string
+          p_plot_type_id: string
+          p_sector_id: string
+        }
+        Returns: string
+      }
       normalize_person_name: {
         Args: {
           p_family_name: string
@@ -1217,6 +1227,19 @@ export type Database = {
           p_permanence_status: string
           p_plot_id: string
           p_position_sequence: number
+          p_state: Database["public"]["Enums"]["record_state"]
+        }
+        Returns: string
+      }
+      update_plot: {
+        Args: {
+          p_cemetery_area_id: string
+          p_cemetery_site_id: string
+          p_confirm_occupied_location_change?: boolean
+          p_plot_id: string
+          p_plot_identifier: string
+          p_plot_type_id: string
+          p_sector_id: string
           p_state: Database["public"]["Enums"]["record_state"]
         }
         Returns: string

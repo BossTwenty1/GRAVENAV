@@ -102,7 +102,7 @@ Task 4 adds `npm run test:imports` using Node's built-in test runner with `tsx`,
 
 Run relevant automated tests, linters, formatters, builds, and security checks before declaring work complete. The specific commands will be documented with the approved Next.js/Supabase implementation scaffold.
 
-Task 5A deceased-record validation tests run with `npm run test:deceased`. Task 5B interment validation, pagination, and confirmation tests run with `npm run test:interments`. Database-level mutation, occupancy, capacity, duplicate, audit, authorization, and no-hard-delete assertions are included in `npx supabase test db`.
+Task 5A deceased-record validation tests run with `npm run test:deceased`. Task 5B interment tests run with `npm run test:interments`. Task 5C plot normalization, pagination, filtering, capacity, and confirmation tests run with `npm run test:plots`. Database-level mutation, occupancy, capacity, duplicate, audit, authorization, and no-hard-delete assertions are included in `npx supabase test db`.
 
 ## Code reviews
 

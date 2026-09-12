@@ -2,7 +2,7 @@
 
 ## Architecture status
 
-APPROVED DIRECTION — Tasks 1–4 established the Next.js foundation, normalized Supabase/PostgreSQL/PostGIS model, explicit Administrator authorization, and safe import pipeline. Tasks 5A and 5B add protected deceased-person and interment management. Plot management, Storage policies, public data access, mapping, geolocation capture, reports, and routing remain deferred. Specific production hosting remains TBD.
+APPROVED DIRECTION — Tasks 1–4 established the Next.js foundation, normalized Supabase/PostgreSQL/PostGIS model, explicit Administrator authorization, and safe import pipeline. Tasks 5A–5C add protected deceased-person, interment, and plot management. Storage policies, public data access, mapping, geolocation capture, reports, and routing remain deferred. Specific production hosting remains TBD.
 
 The approved stack is Next.js App Router, React, TypeScript, Tailwind CSS, shadcn/ui, Supabase PostgreSQL, PostGIS, Supabase Auth, Supabase Storage, Leaflet, React Leaflet, Browser Geolocation API, QGIS where useful, Git, GitHub, and OpenAI Codex. The production hosting provider is not selected.
 
@@ -69,6 +69,8 @@ The public experience is mobile-first and the administrator experience is deskto
 Task 4's `src/lib/imports/` separates pure adapters/normalization from server-only workbook reading, preview/fingerprinting and authenticated persistence. A bounded XLSX reader projects approved columns; a single security-invoker PostgreSQL RPC persists validated records transactionally under existing Administrator RLS. There is no upload route, import UI or browser parser. See [DATA_IMPORT.md](DATA_IMPORT.md) for the privacy boundary and deliberate source-format limitations.
 
 Task 5B keeps list/search/detail reads in authenticated server data-access functions and uses bounded database queries. Small security-invoker interment RPCs make mutation and safe audit metadata atomic while enforcing duplicate, date, occupancy, and configured-capacity rules under the existing RLS boundary. See [ADMIN_INTERMENTS.md](ADMIN_INTERMENTS.md).
+
+Task 5C follows the same pattern for plot management. It uses bounded cascading hierarchy/type selectors, preserves the established site-plus-normalized-key identity, treats capacity as inherited configuration, keeps occupancy derived, and atomically enforces safe location/type/lifecycle corrections. See [ADMIN_PLOTS.md](ADMIN_PLOTS.md).
 
 Use the approved Next.js/Supabase architecture. Exact API and data-access boundaries are implementation details to be established within that architecture. Do not add another backend framework, database, or authentication system without approval.
 

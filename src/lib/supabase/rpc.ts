@@ -21,6 +21,14 @@ type IntermentParameters = {
   p_permanence_status: string | null;
 };
 
+type PlotParameters = {
+  p_cemetery_site_id: string;
+  p_cemetery_area_id: string;
+  p_sector_id: string;
+  p_plot_identifier: string;
+  p_plot_type_id: string;
+};
+
 // PostgreSQL routine metadata does not declare argument nullability, so the
 // Supabase generator emits non-null arguments even when the function accepts
 // SQL NULL. Keep that application-specific correction at this narrow boundary
@@ -56,5 +64,26 @@ export function updateIntermentRpc(
   return client.rpc(
     "update_interment",
     parameters as unknown as Database["public"]["Functions"]["update_interment"]["Args"],
+  );
+}
+
+export function createPlotRpc(client: Client, parameters: PlotParameters) {
+  return client.rpc(
+    "create_plot",
+    parameters as Database["public"]["Functions"]["create_plot"]["Args"],
+  );
+}
+
+export function updatePlotRpc(
+  client: Client,
+  parameters: PlotParameters & {
+    p_plot_id: string;
+    p_state: RecordState;
+    p_confirm_occupied_location_change?: boolean;
+  },
+) {
+  return client.rpc(
+    "update_plot",
+    parameters as Database["public"]["Functions"]["update_plot"]["Args"],
   );
 }

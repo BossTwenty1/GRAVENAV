@@ -1,6 +1,6 @@
 # GRAVENAV database foundation
 
-Task 2 adds the initial normalized Supabase/PostgreSQL/PostGIS schema. Task 3 adds authentication authorization support and RLS/grants. Task 4 adds the safe import foundation. Task 5A adds Administrator deceased-record management. Task 5B adds narrowly scoped Administrator interment create and correction functions without implementing plot management, public search, mapping, GPS, reports, photos, or routing.
+Task 2 adds the initial normalized Supabase/PostgreSQL/PostGIS schema. Task 3 adds authentication authorization support and RLS/grants. Task 4 adds the safe import foundation. Tasks 5A–5C add narrowly scoped Administrator deceased-record, interment, and plot management without implementing plot-type/hierarchy CRUD, public search, mapping, GPS, reports, photos, or routing.
 
 ## Migration and local workflow
 
@@ -12,10 +12,12 @@ The database definition is in:
 - `supabase/migrations/20260911140000_safe_import_pipeline.sql`
 - `supabase/migrations/20260911180000_admin_deceased_management.sql`
 - `supabase/migrations/20260912100000_admin_interment_management.sql`
+- `supabase/migrations/20260912140000_admin_plot_management.sql`
 - `supabase/seed.sql`
 - `supabase/tests/administrator_authorization.test.sql`
 - `supabase/tests/admin_deceased_management.test.sql`
 - `supabase/tests/admin_interment_management.test.sql`
+- `supabase/tests/admin_plot_management.test.sql`
 
 With the Supabase CLI and Docker installed, run from the repository root:
 
@@ -92,6 +94,8 @@ Task 5A uses small security-invoker RPCs to make each deceased-person create/cor
 
 Task 5B uses the same atomic pattern for interment create/correction. The functions lock relevant plots before rechecking exact duplicates, active occupancy, configured plot-type capacity, and deliberate occupied-plot confirmation. An empty unknown-capacity plot may receive its first active interment, but further active placements are blocked until capacity is configured or reviewed. They preserve the same interment UUID during correction and use the existing archived state instead of deletion. See [Administrator interment management](ADMIN_INTERMENTS.md).
 
+Task 5C adds atomic plot create/correction RPCs without changing the existing table model. Manual plots require an existing site, area, sector, and plot type; identifier whitespace and the lowercase lot key are normalized deterministically. Type changes cannot reduce capacity below active occupancy or assign unknown capacity to multiple active interments. Occupied location corrections require confirmation, lifecycle transitions cannot archive active occupancy, and the plot UUID and interments remain intact. See [Administrator plot management](ADMIN_PLOTS.md).
+
 ## Imports and synthetic data
 
 Task 4 adds `20260911140000_safe_import_pipeline.sql`: optional `deceased_persons.source_display_name` preserves an undecomposed name while generated display/search columns retain existing name-part fallback; `import_batches.validated_records` stores an allowlisted provenance ledger; an import fingerprint index and Administrator-only security-invoker RPC support atomic persistence. Existing RLS and occupancy behavior are unchanged. See [DATA_IMPORT.md](DATA_IMPORT.md) for field allowlists, review states, matching, limits and synthetic validation. No real client migration is included.
@@ -110,6 +114,6 @@ Task 4 adds `20260911140000_safe_import_pipeline.sql`: optional `deceased_person
 - photo storage bucket policy and upload UI;
 - cemetery map rendering and GPS navigation;
 - routing algorithms and navigation instructions;
-- plot-management CRUD and the remaining deferred public, map, coordinate, photo, report, and navigation workflows.
+- plot-type and cemetery-hierarchy configuration UI, plus the remaining deferred public, map, coordinate, photo, report, and navigation workflows.
 
 The generated database types live at `src/types/database.types.ts`. Run `npm run db:types` after schema changes; it invokes `npx supabase gen types typescript --local` and only normalizes trailing whitespace so `git diff --check` remains clean. No generated type definition is hand-edited. PostgreSQL routine metadata does not expose argument nullability to the generator, so nullable application RPC parameters are described and narrowly adapted in the handwritten `src/lib/supabase/rpc.ts` boundary.
