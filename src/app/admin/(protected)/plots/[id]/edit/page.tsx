@@ -7,6 +7,8 @@ import { isPlotUuid } from "@/lib/plots/validation";
 import { updatePlot } from "../../actions";
 import { PlotForm } from "../../plot-form";
 
+export const metadata = { title: "Edit plot" };
+
 export default async function EditPlotPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   if (!isPlotUuid(id)) notFound();
@@ -19,10 +21,10 @@ export default async function EditPlotPage({ params }: { params: Promise<{ id: s
   const action = updatePlot.bind(null, plot.id);
 
   return <div className="grid gap-4">
-    <Link className="w-fit font-semibold text-primary underline" href={`/admin/plots/${plot.id}`}>← Back to plot</Link>
-    <section className="rounded-2xl border bg-surface p-6 shadow-sm sm:p-8">
-      <p className="text-sm font-semibold uppercase tracking-[0.14em] text-primary">Correction</p><h1 className="mt-2 text-3xl font-semibold tracking-tight">Edit plot</h1>
-      <p className="mt-3 max-w-2xl leading-7 text-muted">Correct the same plot UUID. Occupancy remains derived, shared plot-type capacity remains read-only, and occupied location changes require deliberate confirmation.</p>
+    <Link className="admin-text-link w-fit" href={`/admin/plots/${plot.id}`}>← Back to plot</Link>
+    <section className="admin-panel p-5 sm:p-8">
+      <p className="admin-kicker">Plot correction</p><h1 className="admin-page-title mt-2">Edit plot</h1>
+      <p className="admin-page-description mt-3">Correct the same plot UUID. Occupancy remains derived, shared plot-type capacity remains read-only, and occupied location changes require deliberate confirmation.</p>
       <div className="mt-8"><PlotForm action={action} allowLifecycle cancelHref={`/admin/plots/${plot.id}`} initialArea={area} initialPlotType={plotType} initialSector={sector} initialSite={site} initialValues={{ siteId: plot.siteId, areaId: plot.areaId ?? "", sectorId: plot.sectorId ?? "", plotTypeId: plot.plotTypeId ?? "", plotIdentifier: plot.identifier, state: plot.state }} submitLabel="Save corrections" /></div>
     </section>
   </div>;

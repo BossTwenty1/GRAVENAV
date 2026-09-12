@@ -1,14 +1,16 @@
 import Link from "next/link";
 
+export const metadata = { title: "Reserved administration section" };
+
 export default function AdminSectionPage() {
   return (
-    <div className="rounded-2xl border bg-surface p-6 shadow-sm sm:p-8">
-      <p className="text-sm font-semibold uppercase tracking-[0.14em] text-primary">Administrator</p>
-      <h1 className="mt-3 text-3xl font-semibold tracking-tight">Reserved administration section</h1>
-      <p className="mt-4 max-w-2xl leading-7 text-muted">
+    <div className="admin-panel p-5 sm:p-8">
+      <p className="admin-kicker">Planned work</p>
+      <h1 className="admin-page-title mt-3">This administration section is reserved</h1>
+      <p className="admin-page-description mt-4">
         This authenticated route reserves a future administrator workflow. Deceased record, interment, and plot management are available from the main dashboard.
       </p>
-      <Link className="mt-6 inline-flex rounded-lg bg-primary px-4 py-3 font-semibold text-primary-foreground hover:opacity-90" href="/admin">
+      <Link className="admin-button-primary mt-6" href="/admin">
         Return to dashboard
       </Link>
     </div>

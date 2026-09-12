@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useActionState } from "react";
 
+import { useFocusFirstError } from "@/hooks/use-focus-first-error";
 import type { DeceasedFormValues } from "@/lib/deceased/validation";
 
 import type { DeceasedFormState } from "./actions";
@@ -31,9 +32,10 @@ export function DeceasedForm({
 }) {
   const [state, formAction, pending] = useActionState(action, initialState);
   const values = state.values ?? initialValues;
+  const formRef = useFocusFirstError(state.fieldErrors);
 
   return (
-    <form action={formAction} className="grid gap-6" noValidate>
+    <form action={formAction} className="grid gap-7" noValidate ref={formRef}>
       <div>
         <label className="block text-sm font-semibold" htmlFor="displayName">
           Full display name <span className="text-red-700">(required)</span>
@@ -44,7 +46,8 @@ export function DeceasedForm({
         <input
           aria-describedby={state.fieldErrors?.displayName ? "displayName-help displayName-error" : "displayName-help"}
           aria-invalid={Boolean(state.fieldErrors?.displayName)}
-          className="mt-2 w-full rounded-lg border bg-white px-3 py-3 text-base"
+          autoComplete="off"
+          className="admin-control mt-2"
           defaultValue={values.displayName}
           disabled={pending}
           id="displayName"
@@ -62,7 +65,8 @@ export function DeceasedForm({
           <input
             aria-describedby={state.fieldErrors?.birthDate ? "birthDate-error" : undefined}
             aria-invalid={Boolean(state.fieldErrors?.birthDate)}
-            className="mt-2 w-full rounded-lg border bg-white px-3 py-3 text-base"
+            autoComplete="off"
+            className="admin-control mt-2"
             defaultValue={values.birthDate}
             disabled={pending}
             id="birthDate"
@@ -76,7 +80,8 @@ export function DeceasedForm({
           <input
             aria-describedby={state.fieldErrors?.deathDate ? "deathDate-error" : undefined}
             aria-invalid={Boolean(state.fieldErrors?.deathDate)}
-            className="mt-2 w-full rounded-lg border bg-white px-3 py-3 text-base"
+            autoComplete="off"
+            className="admin-control mt-2"
             defaultValue={values.deathDate}
             disabled={pending}
             id="deathDate"
@@ -88,7 +93,7 @@ export function DeceasedForm({
       </div>
 
       {state.duplicateCandidates?.length ? (
-        <section aria-labelledby="duplicate-heading" className="rounded-xl border border-amber-300 bg-amber-50 p-4" role="alert">
+        <section aria-labelledby="duplicate-heading" className="admin-alert-warning" role="alert">
           <h2 className="font-semibold text-amber-950" id="duplicate-heading">Review similar records before saving</h2>
           <p className="mt-2 text-sm leading-6 text-amber-900">
             A matching name is not proof of the same person. Compare the available dates, then review an existing record or continue only if this is a different person.
@@ -99,7 +104,7 @@ export function DeceasedForm({
                 <span className="font-semibold">{candidate.display_name}</span>
                 <span className="mt-1 block text-muted">Born {formatDate(candidate.date_of_birth)} · Died {formatDate(candidate.date_of_death)}</span>
                 <span className="mt-1 block text-amber-900">{candidate.reason === "matching-date" ? "Name and at least one date match." : "Name matches; dates do not establish identity."}</span>
-                <Link className="mt-2 inline-flex font-semibold text-primary underline" href={`/admin/deceased/${candidate.id}`} rel="noopener noreferrer" target="_blank">Review record</Link>
+                <Link className="admin-text-link mt-2" href={`/admin/deceased/${candidate.id}`} rel="noopener noreferrer" target="_blank">Review record</Link>
               </li>
             ))}
           </ul>
@@ -107,13 +112,13 @@ export function DeceasedForm({
         </section>
       ) : null}
 
-      {state.error ? <p aria-live="polite" className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800" role="alert">{state.error}</p> : null}
+      {state.error ? <p aria-live="polite" className="admin-alert-error" role="alert">{state.error}</p> : null}
 
       <div className="flex flex-wrap gap-3 border-t pt-5">
-        <button className="inline-flex min-h-12 items-center justify-center rounded-lg bg-primary px-5 py-3 font-semibold text-primary-foreground hover:opacity-90 disabled:cursor-wait disabled:opacity-70" disabled={pending} type="submit">
+        <button className="admin-button-primary" disabled={pending} type="submit">
           {pending ? "Saving…" : state.duplicateCandidates?.length ? "Save as a different person" : submitLabel}
         </button>
-        <Link className="inline-flex min-h-12 items-center justify-center rounded-lg border bg-white px-5 py-3 font-semibold hover:bg-accent" href={cancelHref}>Cancel</Link>
+        <Link className="admin-button-secondary" href={cancelHref}>Cancel</Link>
       </div>
     </form>
   );

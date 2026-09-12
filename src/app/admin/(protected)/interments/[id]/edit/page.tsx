@@ -7,6 +7,8 @@ import { isUuid } from "@/lib/interments/validation";
 import { updateInterment } from "../../actions";
 import { IntermentForm } from "../../interment-form";
 
+export const metadata = { title: "Edit interment" };
+
 export default async function EditIntermentPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   if (!isUuid(id)) notFound();
@@ -18,11 +20,11 @@ export default async function EditIntermentPage({ params }: { params: Promise<{ 
 
   return (
     <div className="grid gap-4">
-      <Link className="w-fit font-semibold text-primary underline" href={`/admin/interments/${record.id}`}>← Back to interment</Link>
-      <section className="rounded-2xl border bg-surface p-6 shadow-sm sm:p-8">
-        <p className="text-sm font-semibold uppercase tracking-[0.14em] text-primary">Correction</p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight">Edit interment</h1>
-        <p className="mt-3 max-w-2xl leading-7 text-muted">Correct the existing record without changing its UUID. Plot moves and reactivation recheck occupancy and capacity.</p>
+      <Link className="admin-text-link w-fit" href={`/admin/interments/${record.id}`}>← Back to interment</Link>
+      <section className="admin-panel p-5 sm:p-8">
+        <p className="admin-kicker">Interment correction</p>
+        <h1 className="admin-page-title mt-2">Edit interment</h1>
+        <p className="admin-page-description mt-3">Correct the existing record without changing its UUID. Plot moves and reactivation recheck occupancy and capacity.</p>
         <div className="mt-8"><IntermentForm action={action} allowLifecycle cancelHref={`/admin/interments/${record.id}`} initialDeceased={deceased} initialPlot={plot} initialValues={{ deceasedPersonId: record.deceasedPersonId, plotId: record.plotId, intermentDate: record.intermentDate ?? "", intermentType: record.intermentType ?? "", positionSequence: record.positionSequence?.toString() ?? "", permanenceStatus: record.permanenceStatus ?? "", state: record.state }} submitLabel="Save corrections" /></div>
       </section>
     </div>

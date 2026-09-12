@@ -14,6 +14,6 @@ export function capacityLabel(capacity: number | null) {
 }
 
 export function AdminStatusBadge({ children, tone = "neutral" }: { children: React.ReactNode; tone?: "neutral" | "active" | "archived" }) {
-  const toneClass = tone === "active" ? "border-green-200 bg-green-50 text-green-900" : tone === "archived" ? "border-slate-300 bg-slate-100 text-slate-800" : "border-stone-300 bg-stone-50 text-stone-800";
-  return <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${toneClass}`}>{children}</span>;
+  const toneClass = tone === "active" ? "border-[#b8cdbb] bg-[#edf4eb] text-[#214d32]" : tone === "archived" ? "border-[#c9ceca] bg-[#eef0ed] text-[#4b5750]" : "border-[#d1c9b9] bg-[#f5f1e7] text-[#60543e]";
+  return <span className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-1 text-xs font-semibold ${toneClass}`}><span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-current opacity-70" />{children}</span>;
 }

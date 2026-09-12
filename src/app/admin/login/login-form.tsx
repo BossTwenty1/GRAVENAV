@@ -2,15 +2,18 @@
 
 import { useActionState } from "react";
 
+import { useFocusFirstError } from "@/hooks/use-focus-first-error";
+
 import { loginAdministrator, type LoginState } from "./actions";
 
 const initialState: LoginState = {};
 
 export function LoginForm() {
   const [state, formAction, pending] = useActionState(loginAdministrator, initialState);
+  const formRef = useFocusFirstError(state.fieldErrors);
 
   return (
-    <form action={formAction} className="mt-8 grid gap-5" noValidate>
+    <form action={formAction} className="mt-8 grid gap-5" noValidate ref={formRef}>
       <div>
         <label className="block text-sm font-semibold" htmlFor="email">
           Email address
@@ -19,12 +22,13 @@ export function LoginForm() {
           aria-describedby={state.fieldErrors?.email ? "email-error" : undefined}
           aria-invalid={Boolean(state.fieldErrors?.email)}
           autoComplete="username"
-          className="mt-2 w-full rounded-lg border bg-white px-3 py-3 text-base"
+          className="admin-control mt-2"
           disabled={pending}
           id="email"
           maxLength={254}
           name="email"
           required
+          spellCheck={false}
           type="email"
         />
         {state.fieldErrors?.email ? (
@@ -42,7 +46,7 @@ export function LoginForm() {
           aria-describedby={state.fieldErrors?.password ? "password-error" : undefined}
           aria-invalid={Boolean(state.fieldErrors?.password)}
           autoComplete="current-password"
-          className="mt-2 w-full rounded-lg border bg-white px-3 py-3 text-base"
+          className="admin-control mt-2"
           disabled={pending}
           id="password"
           name="password"
@@ -57,13 +61,13 @@ export function LoginForm() {
       </div>
 
       {state.error ? (
-        <p aria-live="polite" className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800" role="alert">
+        <p aria-live="polite" className="admin-alert-error" role="alert">
           {state.error}
         </p>
       ) : null}
 
       <button
-        className="inline-flex min-h-12 items-center justify-center rounded-lg bg-primary px-4 py-3 font-semibold text-primary-foreground hover:opacity-90 disabled:cursor-wait disabled:opacity-70"
+        className="admin-button-primary w-full"
         disabled={pending}
         type="submit"
       >
