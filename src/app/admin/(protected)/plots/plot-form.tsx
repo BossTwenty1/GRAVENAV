@@ -125,8 +125,8 @@ export function PlotForm({
       <div>
         <label className="block text-sm font-semibold" htmlFor="plotIdentifier">Plot identifier <span className="text-red-700">(required)</span></label>
         <p className="mt-1 text-sm leading-6 text-muted">Enter only the verified human-readable identifier. GRAVENAV normalizes whitespace and case for deterministic duplicate checking.</p>
-        <input aria-invalid={Boolean(state.fieldErrors?.plotIdentifier)} className="mt-2 w-full rounded-lg border bg-white px-3 py-3" defaultValue={values.plotIdentifier} disabled={pending} id="plotIdentifier" maxLength={100} name="plotIdentifier" required />
-        {state.fieldErrors?.plotIdentifier ? <p className="mt-2 text-sm text-red-700">{state.fieldErrors.plotIdentifier}</p> : null}
+        <input aria-describedby={state.fieldErrors?.plotIdentifier ? "plotIdentifier-error" : undefined} aria-invalid={Boolean(state.fieldErrors?.plotIdentifier)} className="mt-2 w-full rounded-lg border bg-white px-3 py-3" defaultValue={values.plotIdentifier} disabled={pending} id="plotIdentifier" maxLength={100} name="plotIdentifier" required />
+        {state.fieldErrors?.plotIdentifier ? <p className="mt-2 text-sm text-red-700" id="plotIdentifier-error">{state.fieldErrors.plotIdentifier}</p> : null}
       </div>
 
       <Picker description="Select an existing active plot type. Capacity is inherited and cannot be edited here." id="plot-type" onClear={() => setPlotType(null)} onSelect={(option) => setPlotType(option as PlotTypeOption)} pending={pending} search={searchPlotTypes} selected={plotType} title="Plot type" />

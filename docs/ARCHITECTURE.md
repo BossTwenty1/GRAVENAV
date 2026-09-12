@@ -72,6 +72,8 @@ Task 5B keeps list/search/detail reads in authenticated server data-access funct
 
 Task 5C follows the same pattern for plot management. It uses bounded cascading hierarchy/type selectors, preserves the established site-plus-normalized-key identity, treats capacity as inherited configuration, keeps occupancy derived, and atomically enforces safe location/type/lifecycle corrections. See [ADMIN_PLOTS.md](ADMIN_PLOTS.md).
 
+Task 5D connects these three Administrator record modules through bounded read-only relationship context, consistent state presentation, and accessible current-section navigation. It does not change schema or mutation boundaries. See [ADMIN_RECORDS_INTEGRATION.md](ADMIN_RECORDS_INTEGRATION.md).
+
 Use the approved Next.js/Supabase architecture. Exact API and data-access boundaries are implementation details to be established within that architecture. Do not add another backend framework, database, or authentication system without approval.
 
 ## Database and storage considerations

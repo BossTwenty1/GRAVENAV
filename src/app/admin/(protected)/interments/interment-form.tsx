@@ -128,24 +128,24 @@ export function IntermentForm({
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label className="block text-sm font-semibold" htmlFor="intermentDate">Interment date <span className="font-normal text-muted">(optional)</span></label>
-          <input aria-invalid={Boolean(state.fieldErrors?.intermentDate)} className="mt-2 w-full rounded-lg border bg-white px-3 py-3" defaultValue={values.intermentDate} disabled={pending} id="intermentDate" name="intermentDate" type="date" />
-          {state.fieldErrors?.intermentDate ? <p className="mt-2 text-sm text-red-700">{state.fieldErrors.intermentDate}</p> : null}
+          <input aria-describedby={state.fieldErrors?.intermentDate ? "intermentDate-error" : undefined} aria-invalid={Boolean(state.fieldErrors?.intermentDate)} className="mt-2 w-full rounded-lg border bg-white px-3 py-3" defaultValue={values.intermentDate} disabled={pending} id="intermentDate" name="intermentDate" type="date" />
+          {state.fieldErrors?.intermentDate ? <p className="mt-2 text-sm text-red-700" id="intermentDate-error">{state.fieldErrors.intermentDate}</p> : null}
         </div>
         <div>
           <label className="block text-sm font-semibold" htmlFor="positionSequence">Position sequence <span className="font-normal text-muted">(optional)</span></label>
-          <input aria-invalid={Boolean(state.fieldErrors?.positionSequence)} className="mt-2 w-full rounded-lg border bg-white px-3 py-3" defaultValue={values.positionSequence} disabled={pending} id="positionSequence" min="1" name="positionSequence" step="1" type="number" />
-          {state.fieldErrors?.positionSequence ? <p className="mt-2 text-sm text-red-700">{state.fieldErrors.positionSequence}</p> : null}
+          <input aria-describedby={state.fieldErrors?.positionSequence ? "positionSequence-error" : undefined} aria-invalid={Boolean(state.fieldErrors?.positionSequence)} className="mt-2 w-full rounded-lg border bg-white px-3 py-3" defaultValue={values.positionSequence} disabled={pending} id="positionSequence" min="1" name="positionSequence" step="1" type="number" />
+          {state.fieldErrors?.positionSequence ? <p className="mt-2 text-sm text-red-700" id="positionSequence-error">{state.fieldErrors.positionSequence}</p> : null}
         </div>
         <div>
           <label className="block text-sm font-semibold" htmlFor="intermentType">Interment type <span className="font-normal text-muted">(optional)</span></label>
-          <input aria-invalid={Boolean(state.fieldErrors?.intermentType)} className="mt-2 w-full rounded-lg border bg-white px-3 py-3" defaultValue={values.intermentType} disabled={pending} id="intermentType" maxLength={100} name="intermentType" type="text" />
-          <p className="mt-1 text-xs text-muted">Use only a verified existing description; no cemetery-specific categories are inferred.</p>
-          {state.fieldErrors?.intermentType ? <p className="mt-2 text-sm text-red-700">{state.fieldErrors.intermentType}</p> : null}
+          <input aria-describedby={state.fieldErrors?.intermentType ? "intermentType-help intermentType-error" : "intermentType-help"} aria-invalid={Boolean(state.fieldErrors?.intermentType)} className="mt-2 w-full rounded-lg border bg-white px-3 py-3" defaultValue={values.intermentType} disabled={pending} id="intermentType" maxLength={100} name="intermentType" type="text" />
+          <p className="mt-1 text-xs text-muted" id="intermentType-help">Use only a verified existing description; no cemetery-specific categories are inferred.</p>
+          {state.fieldErrors?.intermentType ? <p className="mt-2 text-sm text-red-700" id="intermentType-error">{state.fieldErrors.intermentType}</p> : null}
         </div>
         <div>
           <label className="block text-sm font-semibold" htmlFor="permanenceStatus">Permanence status <span className="font-normal text-muted">(optional)</span></label>
-          <input aria-invalid={Boolean(state.fieldErrors?.permanenceStatus)} className="mt-2 w-full rounded-lg border bg-white px-3 py-3" defaultValue={values.permanenceStatus} disabled={pending} id="permanenceStatus" maxLength={100} name="permanenceStatus" type="text" />
-          {state.fieldErrors?.permanenceStatus ? <p className="mt-2 text-sm text-red-700">{state.fieldErrors.permanenceStatus}</p> : null}
+          <input aria-describedby={state.fieldErrors?.permanenceStatus ? "permanenceStatus-error" : undefined} aria-invalid={Boolean(state.fieldErrors?.permanenceStatus)} className="mt-2 w-full rounded-lg border bg-white px-3 py-3" defaultValue={values.permanenceStatus} disabled={pending} id="permanenceStatus" maxLength={100} name="permanenceStatus" type="text" />
+          {state.fieldErrors?.permanenceStatus ? <p className="mt-2 text-sm text-red-700" id="permanenceStatus-error">{state.fieldErrors.permanenceStatus}</p> : null}
         </div>
       </div>
 

@@ -113,6 +113,8 @@ Task 4 implements the privacy-first normalization/import engine for explicitly a
 
 Task 5A provides protected deceased-person management. Task 5B provides protected interment management. Task 5C provides protected, paginated plot management with bounded hierarchy/type selection, inherited-capacity safety, read-only derived occupancy, deterministic duplicate prevention, lifecycle/location correction safeguards, and atomic safe audit history. Plot-type and hierarchy CRUD plus all later public/map/GPS/report/photo workflows remain deferred. See [ADMIN_DECEASED_RECORDS.md](ADMIN_DECEASED_RECORDS.md), [ADMIN_INTERMENTS.md](ADMIN_INTERMENTS.md), and [ADMIN_PLOTS.md](ADMIN_PLOTS.md).
 
+Task 5D integrates those three protected record modules with consistent navigation, terminology, status wording, responsive behavior, accessible feedback, and bounded cross-links while leaving their security and business rules unchanged. See [ADMIN_RECORDS_INTEGRATION.md](ADMIN_RECORDS_INTEGRATION.md).
+
 The data model should support administrator references, deceased-person information, burial details, sections, blocks, rows, plots, gravesite identifiers, gravesite relationships, latitude/longitude, PostGIS geometry/geography where appropriate, GPS accuracy, coordinate-verification status, photos and metadata, record visibility/status, timestamps, and occupancy or audit information only when approved and supported by reliable client data.
 
 ## GPS/geolocation requirements

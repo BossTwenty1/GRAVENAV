@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { AdminStatusBadge, capacityLabel, occupancyLabel, recordStateLabel } from "@/components/admin-record-state";
 import { getInterment } from "@/lib/interments/data";
 import { isUuid } from "@/lib/interments/validation";
 
@@ -31,9 +32,9 @@ export default async function IntermentDetailPage({ params, searchParams }: { pa
           <div><dt className="text-sm font-semibold text-muted">Deceased record</dt><dd className="mt-1 text-lg"><Link className="font-semibold text-primary underline" href={`/admin/deceased/${record.deceasedPersonId}`}>{record.deceasedName}</Link></dd><dd className="mt-1 text-sm text-muted">Born {formatDate(record.deceasedBirthDate)} · Died {formatDate(record.deceasedDeathDate)}</dd></div>
           <div><dt className="text-sm font-semibold text-muted">Interment date</dt><dd className="mt-1 text-lg">{formatDate(record.intermentDate)}</dd></div>
           <div><dt className="text-sm font-semibold text-muted">Cemetery location</dt><dd className="mt-1 text-lg">{location}</dd></div>
-          <div><dt className="text-sm font-semibold text-muted">Plot</dt><dd className="mt-1 text-lg">{record.plotIdentifier}</dd><dd className="mt-1 text-sm text-muted">Lot key: {record.lotKey}</dd></div>
-          <div><dt className="text-sm font-semibold text-muted">Plot occupancy</dt><dd className="mt-1 capitalize">{record.occupancyStatus.replaceAll("_", " ")} ({record.activeIntermentCount} active)</dd><dd className="mt-1 text-sm text-muted">Configured capacity: {record.capacity ?? "not configured"}</dd></div>
-          <div><dt className="text-sm font-semibold text-muted">Lifecycle state</dt><dd className="mt-1 capitalize">{record.state}</dd></div>
+          <div><dt className="text-sm font-semibold text-muted">Plot</dt><dd className="mt-1 text-lg"><Link className="font-semibold text-primary underline" href={`/admin/plots/${record.plotId}`}>{record.plotIdentifier}</Link></dd><dd className="mt-1 text-sm text-muted">Normalized plot key: {record.lotKey}</dd></div>
+          <div><dt className="text-sm font-semibold text-muted">Plot occupancy</dt><dd className="mt-1"><AdminStatusBadge>{occupancyLabel(record.occupancyStatus)}</AdminStatusBadge> <span className="text-sm text-muted">({record.activeIntermentCount} active)</span></dd><dd className="mt-1 text-sm text-muted">Capacity: {capacityLabel(record.capacity)}</dd></div>
+          <div><dt className="text-sm font-semibold text-muted">Lifecycle state</dt><dd className="mt-1"><AdminStatusBadge tone={record.state}>{recordStateLabel(record.state)}</AdminStatusBadge></dd></div>
           <div><dt className="text-sm font-semibold text-muted">Interment type</dt><dd className="mt-1">{record.intermentType ?? "Not recorded"}</dd></div>
           <div><dt className="text-sm font-semibold text-muted">Position sequence</dt><dd className="mt-1">{record.positionSequence ?? "Not recorded"}</dd></div>
           <div><dt className="text-sm font-semibold text-muted">Permanence status</dt><dd className="mt-1">{record.permanenceStatus ?? "Not recorded"}</dd></div>

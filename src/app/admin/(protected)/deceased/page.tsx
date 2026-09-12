@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import { AdminStatusBadge, recordStateLabel } from "@/components/admin-record-state";
 import { listDeceasedRecords } from "@/lib/deceased/data";
 import { DECEASED_PAGE_SIZE, normalizeSearchQuery, parsePage } from "@/lib/deceased/validation";
 
@@ -68,7 +69,7 @@ export default async function DeceasedListPage({
           <div className="overflow-x-auto">
             <table className="w-full min-w-[720px] text-left text-sm">
               <thead className="bg-[#f5f7f3] text-xs uppercase tracking-wide text-muted">
-                <tr><th className="px-6 py-3" scope="col">Deceased name</th><th className="px-4 py-3" scope="col">Birth date</th><th className="px-4 py-3" scope="col">Death date</th><th className="px-4 py-3" scope="col">Last updated</th><th className="px-6 py-3 text-right" scope="col">Actions</th></tr>
+                <tr><th className="px-6 py-3" scope="col">Deceased person</th><th className="px-4 py-3" scope="col">Birth date</th><th className="px-4 py-3" scope="col">Death date</th><th className="px-4 py-3" scope="col">State</th><th className="px-4 py-3" scope="col">Last updated</th><th className="px-6 py-3 text-right" scope="col">Actions</th></tr>
               </thead>
               <tbody className="divide-y">
                 {records.map((record) => (
@@ -76,6 +77,7 @@ export default async function DeceasedListPage({
                     <th className="px-6 py-4 font-semibold" scope="row">{record.display_name}</th>
                     <td className="px-4 py-4 text-muted">{formatDate(record.date_of_birth)}</td>
                     <td className="px-4 py-4 text-muted">{formatDate(record.date_of_death)}</td>
+                    <td className="px-4 py-4"><AdminStatusBadge tone={record.state}>{recordStateLabel(record.state)}</AdminStatusBadge></td>
                     <td className="px-4 py-4 text-muted">{new Intl.DateTimeFormat("en-PH", { dateStyle: "medium" }).format(new Date(record.updated_at))}</td>
                     <td className="px-6 py-4 text-right"><Link className="font-semibold text-primary underline" href={`/admin/deceased/${record.id}`}>View record</Link></td>
                   </tr>

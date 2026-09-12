@@ -19,6 +19,17 @@ export type DuplicateCandidate = Pick<
   "id" | "display_name" | "date_of_birth" | "date_of_death"
 > & { reason: "matching-date" | "name-only" };
 
+export type DeceasedIntermentContext = {
+  id: string;
+  intermentDate: string | null;
+  state: Database["public"]["Enums"]["record_state"];
+  plotId: string;
+  plotIdentifier: string;
+  siteName: string;
+  areaName: string | null;
+  sectorLabel: string | null;
+};
+
 export async function listDeceasedRecords(search: string, page: number) {
   const supabase = await createSupabaseServerClient();
   const { start, end } = deceasedPageRange(page);
@@ -36,6 +47,12 @@ export async function listDeceasedRecords(search: string, page: number) {
   const { data, error, count } = await query;
 
   if (error) {
+    if (error.code === "PGRST103" && page > 1) {
+      let countQuery = supabase.from("deceased_persons").select("id", { count: "exact", head: true });
+      if (search) countQuery = countQuery.ilike("normalized_search_name", `%${escapeIlikePattern(search)}%`);
+      const countResult = await countQuery;
+      if (!countResult.error) return { records: [] as DeceasedSummary[], count: countResult.count ?? 0 };
+    }
     throw new Error("Unable to load deceased records.");
   }
 
@@ -44,17 +61,59 @@ export async function listDeceasedRecords(search: string, page: number) {
 
 export async function getDeceasedRecord(id: string) {
   const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("deceased_persons")
-    .select("id, display_name, date_of_birth, date_of_death, state, created_at, updated_at")
-    .eq("id", id)
-    .maybeSingle();
+  const [recordResult, intermentsResult] = await Promise.all([
+    supabase
+      .from("deceased_persons")
+      .select("id, display_name, date_of_birth, date_of_death, state, created_at, updated_at")
+      .eq("id", id)
+      .maybeSingle(),
+    supabase
+      .from("interments")
+      .select(`
+        id, interment_date, state,
+        plot:plots!inner(
+          id, normalized_plot_identifier,
+          cemetery_site:cemetery_sites!inner(name),
+          cemetery_area:cemetery_areas(name),
+          sector:sectors(identifier, name)
+        )
+      `)
+      .eq("deceased_person_id", id)
+      .order("state", { ascending: true })
+      .order("interment_date", { ascending: false, nullsFirst: false })
+      .limit(25),
+  ]);
 
-  if (error) {
+  if (recordResult.error || intermentsResult.error) {
     throw new Error("Unable to load the deceased record.");
   }
 
-  return data;
+  if (!recordResult.data) return null;
+
+  type JoinedInterment = {
+    id: string;
+    interment_date: string | null;
+    state: Database["public"]["Enums"]["record_state"];
+    plot: {
+      id: string;
+      normalized_plot_identifier: string;
+      cemetery_site: { name: string };
+      cemetery_area: { name: string } | null;
+      sector: { identifier: string; name: string | null } | null;
+    };
+  };
+  const relatedInterments = (intermentsResult.data as unknown as JoinedInterment[]).map((item): DeceasedIntermentContext => ({
+    id: item.id,
+    intermentDate: item.interment_date,
+    state: item.state,
+    plotId: item.plot.id,
+    plotIdentifier: item.plot.normalized_plot_identifier,
+    siteName: item.plot.cemetery_site.name,
+    areaName: item.plot.cemetery_area?.name ?? null,
+    sectorLabel: item.plot.sector ? (item.plot.sector.name ? `${item.plot.sector.identifier} — ${item.plot.sector.name}` : item.plot.sector.identifier) : null,
+  }));
+
+  return { ...recordResult.data, relatedInterments };
 }
 
 export function classifyDuplicateCandidates(

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { AdminStatusBadge, capacityLabel, occupancyLabel, recordStateLabel } from "@/components/admin-record-state";
 import { getPlot } from "@/lib/plots/data";
 import { isPlotUuid, PLOT_PAGE_SIZE } from "@/lib/plots/validation";
 
@@ -30,9 +31,9 @@ export default async function PlotDetailPage({ params, searchParams }: { params:
         <div><dt className="text-sm font-semibold text-muted">Area or garden</dt><dd className="mt-1 text-lg">{plot.areaName ?? "Not assigned"}</dd></div>
         <div><dt className="text-sm font-semibold text-muted">Sector</dt><dd className="mt-1 text-lg">{plot.sectorLabel ?? "Not assigned"}</dd></div>
         <div><dt className="text-sm font-semibold text-muted">Plot type</dt><dd className="mt-1 text-lg">{plot.plotTypeName ?? "Not assigned"}</dd><dd className="mt-1 text-sm text-muted">{plot.plotTypeCode ? `Code: ${plot.plotTypeCode}` : "No configured type"}</dd></div>
-        <div><dt className="text-sm font-semibold text-muted">Inherited capacity</dt><dd className="mt-1 text-lg">{plot.capacity ?? "Unknown / not configured"}</dd></div>
-        <div><dt className="text-sm font-semibold text-muted">Derived occupancy</dt><dd className="mt-1 text-lg capitalize">{plot.occupancyStatus.replaceAll("_", " ")}</dd><dd className="mt-1 text-sm text-muted">{plot.activeIntermentCount} active {plot.activeIntermentCount === 1 ? "interment" : "interments"}</dd></div>
-        <div><dt className="text-sm font-semibold text-muted">Lifecycle state</dt><dd className="mt-1 text-lg capitalize">{plot.state}</dd></div>
+        <div><dt className="text-sm font-semibold text-muted">Inherited capacity</dt><dd className="mt-1 text-lg">{capacityLabel(plot.capacity)}</dd></div>
+        <div><dt className="text-sm font-semibold text-muted">Derived occupancy</dt><dd className="mt-1"><AdminStatusBadge>{occupancyLabel(plot.occupancyStatus)}</AdminStatusBadge></dd><dd className="mt-1 text-sm text-muted">{plot.activeIntermentCount} active {plot.activeIntermentCount === 1 ? "interment" : "interments"}</dd></div>
+        <div><dt className="text-sm font-semibold text-muted">Lifecycle state</dt><dd className="mt-1"><AdminStatusBadge tone={plot.state}>{recordStateLabel(plot.state)}</AdminStatusBadge></dd></div>
         <div><dt className="text-sm font-semibold text-muted">Source commercial metadata</dt><dd className="mt-1 text-lg">{plot.sourceCommercialStatus ?? "Not recorded"}</dd><dd className="mt-1 text-sm text-muted">Not used to determine physical occupancy.</dd></div>
         <div><dt className="text-sm font-semibold text-muted">Record timestamps</dt><dd className="mt-1 text-sm">Created {formatTimestamp(plot.createdAt)}<br />Updated {formatTimestamp(plot.updatedAt)}</dd></div>
       </dl>
@@ -40,7 +41,7 @@ export default async function PlotDetailPage({ params, searchParams }: { params:
 
     <section className="rounded-2xl border bg-surface p-6 shadow-sm sm:p-8">
       <div className="flex flex-wrap items-center justify-between gap-3"><div><h2 className="text-xl font-semibold">Active interments</h2><p className="mt-1 text-sm text-muted">Read-only context; use the interment workflow for corrections.</p></div><Link className="font-semibold text-primary underline" href="/admin/interments">Open interment management</Link></div>
-      {plot.activeInterments.length === 0 ? <p className="mt-6 rounded-lg bg-[#f5f7f3] p-4 text-sm text-muted">No active interments are attached to this plot.</p> : <ul className="mt-6 divide-y rounded-xl border">{plot.activeInterments.map((interment) => <li className="flex flex-col justify-between gap-2 p-4 sm:flex-row sm:items-center" key={interment.id}><span><strong>{interment.deceasedName}</strong><span className="mt-1 block text-sm text-muted">Interment date: {formatDate(interment.intermentDate)}</span></span><Link className="font-semibold text-primary underline" href={`/admin/interments/${interment.id}`}>View interment</Link></li>)}</ul>}
+      {plot.activeInterments.length === 0 ? <p className="mt-6 rounded-lg bg-[#f5f7f3] p-4 text-sm text-muted">No active interments are attached to this plot.</p> : <ul className="mt-6 divide-y rounded-xl border">{plot.activeInterments.map((interment) => <li className="grid gap-3 p-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center" key={interment.id}><span><strong>{interment.deceasedName}</strong><span className="mt-1 block text-sm text-muted">Interment date: {formatDate(interment.intermentDate)}</span></span><span className="flex flex-wrap gap-3"><Link className="font-semibold text-primary underline" href={`/admin/interments/${interment.id}`}>View interment</Link><Link className="font-semibold text-primary underline" href={`/admin/deceased/${interment.deceasedPersonId}`}>View deceased record</Link></span></li>)}</ul>}
       {plot.activeIntermentCount > PLOT_PAGE_SIZE ? <p className="mt-3 text-sm text-muted">Showing the first {PLOT_PAGE_SIZE} active interments.</p> : null}
     </section>
     <p className="rounded-lg bg-[#f5f7f3] p-4 text-sm leading-6 text-muted">Occupancy is read-only and derived from active interments. Plot history is corrected or archived; no hard-delete control is available.</p>

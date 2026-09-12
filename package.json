@@ -12,6 +12,7 @@
     "test:deceased": "node --conditions=react-server --import tsx --test tests/deceased/*.test.ts",
     "test:interments": "node --conditions=react-server --import tsx --test tests/interments/*.test.ts",
     "test:plots": "node --conditions=react-server --import tsx --test tests/plots/*.test.ts",
+    "test:admin-integration": "node --conditions=react-server --import tsx --test tests/admin/*.test.ts",
     "db:types": "node scripts/generate-database-types.mjs",
     "import:preview": "node --conditions=react-server --import tsx scripts/import-preview.ts"
   },

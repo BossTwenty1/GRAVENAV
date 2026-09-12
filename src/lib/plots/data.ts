@@ -36,6 +36,7 @@ export type PlotSummary = {
 
 export type PlotIntermentContext = {
   id: string;
+  deceasedPersonId: string;
   deceasedName: string;
   intermentDate: string | null;
 };
@@ -118,7 +119,18 @@ export async function listPlots(search: string, siteId: string | "all", plotType
   if (state !== "all") query = query.eq("state", state);
 
   const { data, error, count } = await query;
-  if (error) throw new Error("Unable to load plot records.");
+  if (error) {
+    if (error.code === "PGRST103" && page > 1) {
+      let countQuery = supabase.from("plots").select("id", { count: "exact", head: true });
+      if (search) countQuery = countQuery.ilike("normalized_lot_key", `%${escapePlotIlike(search)}%`);
+      if (siteId !== "all") countQuery = countQuery.eq("cemetery_site_id", siteId);
+      if (plotTypeId !== "all") countQuery = countQuery.eq("plot_type_id", plotTypeId);
+      if (state !== "all") countQuery = countQuery.eq("state", state);
+      const countResult = await countQuery;
+      if (!countResult.error) return { records: [] as PlotSummary[], count: countResult.count ?? 0 };
+    }
+    throw new Error("Unable to load plot records.");
+  }
   const rows = data as unknown as JoinedPlot[];
   const ids = rows.map((row) => row.id);
   if (ids.length === 0) return { records: [] as PlotSummary[], count: count ?? 0 };
@@ -153,15 +165,16 @@ export async function getPlot(id: string): Promise<PlotDetail | null> {
     supabase.from("plot_occupancy").select("active_interment_count, derived_occupancy_status").eq("plot_id", id).maybeSingle(),
     supabase
       .from("interments")
-      .select("id, interment_date, deceased_person:deceased_persons!inner(display_name)")
+      .select("id, interment_date, deceased_person:deceased_persons!inner(id, display_name)")
       .eq("plot_id", id)
       .eq("state", "active")
       .order("interment_date", { ascending: true, nullsFirst: false })
       .limit(PLOT_PAGE_SIZE),
   ]);
   if (occupancyResult.error || intermentsResult.error) throw new Error("Unable to load plot context.");
-  const activeInterments = (intermentsResult.data as unknown as Array<{ id: string; interment_date: string | null; deceased_person: { display_name: string | null } }>).map((item) => ({
+  const activeInterments = (intermentsResult.data as unknown as Array<{ id: string; interment_date: string | null; deceased_person: { id: string; display_name: string | null } }>).map((item) => ({
     id: item.id,
+    deceasedPersonId: item.deceased_person.id,
     deceasedName: item.deceased_person.display_name ?? "Unnamed record",
     intermentDate: item.interment_date,
   }));

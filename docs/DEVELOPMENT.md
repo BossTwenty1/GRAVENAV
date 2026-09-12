@@ -104,6 +104,8 @@ Run relevant automated tests, linters, formatters, builds, and security checks b
 
 Task 5A deceased-record validation tests run with `npm run test:deceased`. Task 5B interment tests run with `npm run test:interments`. Task 5C plot normalization, pagination, filtering, capacity, and confirmation tests run with `npm run test:plots`. Database-level mutation, occupancy, capacity, duplicate, audit, authorization, and no-hard-delete assertions are included in `npx supabase test db`.
 
+Task 5D Administrator presentation and integration helpers run with `npm run test:admin-integration`. No Task 5D migration is required; the pass uses bounded reads over existing relationships.
+
 ## Code reviews
 
 Review for correctness, scope, security, maintainability, tests, documentation, and unintended generated or machine-specific files. Resolve review feedback before merging.

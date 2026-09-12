@@ -173,7 +173,16 @@ export async function listInterments(search: string, state: IntermentState | "al
   if (state !== "all") query = query.eq("state", state);
 
   const { data, error, count } = await query;
-  if (error) throw new Error("Unable to load interment records.");
+  if (error) {
+    if (error.code === "PGRST103" && page > 1) {
+      let countQuery = supabase.from("interments").select("id, deceased_person:deceased_persons!inner(normalized_search_name)", { count: "exact", head: true });
+      if (search) countQuery = countQuery.ilike("deceased_person.normalized_search_name", `%${escapeIlike(search)}%`);
+      if (state !== "all") countQuery = countQuery.eq("state", state);
+      const countResult = await countQuery;
+      if (!countResult.error) return { records: [] as IntermentSummary[], count: countResult.count ?? 0 };
+    }
+    throw new Error("Unable to load interment records.");
+  }
   return { records: (data as unknown as JoinedInterment[]).map(toSummary), count: count ?? 0 };
 }
 

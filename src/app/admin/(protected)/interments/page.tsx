@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import { AdminStatusBadge, recordStateLabel } from "@/components/admin-record-state";
 import { listInterments } from "@/lib/interments/data";
 import {
   INTERMENT_PAGE_SIZE,
@@ -46,7 +47,7 @@ export default async function IntermentListPage({
       <section className="rounded-2xl border bg-surface p-6 shadow-sm sm:p-8">
         <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-start">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-primary">Burial records</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-primary">Cemetery records</p>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight">Interments</h1>
             <p className="mt-3 max-w-2xl leading-7 text-muted">View, search, create, and carefully correct the relationship between a deceased record and a plot.</p>
           </div>
@@ -78,7 +79,7 @@ export default async function IntermentListPage({
           <div className="overflow-x-auto">
             <table className="w-full min-w-[860px] text-left text-sm">
               <thead className="bg-[#f5f7f3] text-xs uppercase tracking-wide text-muted"><tr><th className="px-6 py-3" scope="col">Deceased</th><th className="px-4 py-3" scope="col">Location</th><th className="px-4 py-3" scope="col">Interment date</th><th className="px-4 py-3" scope="col">State</th><th className="px-4 py-3" scope="col">Updated</th><th className="px-6 py-3 text-right" scope="col">Actions</th></tr></thead>
-              <tbody className="divide-y">{records.map((record) => <tr key={record.id}><th className="px-6 py-4 font-semibold" scope="row">{record.deceasedName}</th><td className="max-w-sm px-4 py-4 text-muted">{locationText(record)}</td><td className="px-4 py-4 text-muted">{formatDate(record.intermentDate)}</td><td className="px-4 py-4 capitalize">{record.state}</td><td className="px-4 py-4 text-muted">{new Intl.DateTimeFormat("en-PH", { dateStyle: "medium" }).format(new Date(record.updatedAt))}</td><td className="px-6 py-4 text-right"><div className="flex justify-end gap-3"><Link className="font-semibold text-primary underline" href={`/admin/interments/${record.id}`}>View</Link><Link className="font-semibold text-primary underline" href={`/admin/interments/${record.id}/edit`}>Edit</Link></div></td></tr>)}</tbody>
+              <tbody className="divide-y">{records.map((record) => <tr key={record.id}><th className="px-6 py-4 font-semibold" scope="row">{record.deceasedName}</th><td className="max-w-sm px-4 py-4 text-muted">{locationText(record)}</td><td className="px-4 py-4 text-muted">{formatDate(record.intermentDate)}</td><td className="px-4 py-4"><AdminStatusBadge tone={record.state}>{recordStateLabel(record.state)}</AdminStatusBadge></td><td className="px-4 py-4 text-muted">{new Intl.DateTimeFormat("en-PH", { dateStyle: "medium" }).format(new Date(record.updatedAt))}</td><td className="px-6 py-4 text-right"><div className="flex justify-end gap-3"><Link className="font-semibold text-primary underline" href={`/admin/interments/${record.id}`}>View</Link><Link className="font-semibold text-primary underline" href={`/admin/interments/${record.id}/edit`}>Edit</Link></div></td></tr>)}</tbody>
             </table>
           </div>
         )}
